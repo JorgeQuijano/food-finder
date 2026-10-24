@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="en-CA" data-theme-pref="system">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Forkful — Find healthy food across the GTA</title>
+    <meta
+      name="description"
+      content="Forkful is a GTA-wide guide to healthier dishes and spots. Compare calories, protein, fibre, sodium and more, then build a better meal."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f6f2e8" id="theme-color-meta" />
+    <meta name="author" content="Jorge Quijano" />
+    <meta property="og:title" content="Forkful — Find healthy food across the GTA" />
+    <meta
+      property="og:description"
+      content="Compare the numbers behind 57 dishes at 35 GTA spots, filter by what matters, and build a better meal."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_CA" />
+    <meta property="og:site_name" content="Forkful" />
+    <meta property="og:url" content="https://jorgequijano.github.io/food-finder/" />
+    <meta property="og:image" content="https://jorgequijano.github.io/food-finder/assets/preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Forkful, a GTA healthy food guide, showing a Hibiscus Bowl nutrition card."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Forkful — Find healthy food across the GTA" />
+    <meta
+      name="twitter:description"
+      content="Compare the numbers behind 57 dishes at 35 GTA spots, filter by what matters, and build a better meal."
+    />
+    <meta name="twitter:image" content="https://jorgequijano.github.io/food-finder/assets/preview.png" />
+    <link rel="canonical" href="https://jorgequijano.github.io/food-finder/" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("forkful.theme");
+          var pref = ["system", "light", "dark"].includes(stored) ? stored : "system";
+          var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var theme = pref === "system" ? (dark ? "dark" : "light") : pref;
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.dataset.themePref = pref;
+          document.documentElement.style.colorScheme = theme;
+          var meta = document.getElementById("theme-color-meta");
+          if (meta) meta.setAttribute("content", theme === "dark" ? "#0d1410" : "#f6f2e8");
+        } catch (error) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#explore">Skip to the food guide</a>
+
+    <svg class="svg-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-logo" viewBox="0 0 40 40">
+        <rect width="40" height="40" rx="12" fill="currentColor" />
+        <path d="M9.5 21.5h21c0 7-4.7 11.5-10.5 11.5S9.5 28.5 9.5 21.5Z" fill="#f7f4ec" />
+        <path d="M19.8 16.2c.3-4.3 3.5-7.2 7.7-7.4.1 4.3-3.1 7.4-7.7 7.4Z" fill="#a9d6b8" />
+        <path d="M19.8 16.2c-.2 2.6 1.3 4.8 3.8 5.7" fill="none" stroke="#f7f4ec" stroke-width="1.7" stroke-linecap="round" />
+        <path d="M13 29.5h14" stroke="#1b3124" stroke-width="1.6" stroke-linecap="round" opacity=".35" />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.6-3.6" />
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24">
+        <path d="M6 6l12 12M18 6 6 18" />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14" />
+      </symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24">
+        <path d="M5 12h14" />
+      </symbol>
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="m5 12.5 4.2 4.2L19 6.5" />
+      </symbol>
+      <symbol id="i-star" viewBox="0 0 24 24">
+        <path d="m12 2.9 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17l-5.6 3.1 1.1-6.2L3 9.5l6.2-.9L12 2.9Z" fill="currentColor" stroke="none" />
+      </symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24">
+        <path d="M20 10c0 5.2-8 11-8 11S4 15.2 4 10a8 8 0 1 1 16 0Z" />
+        <circle cx="12" cy="10" r="2.6" />
+      </symbol>
+      <symbol id="i-sliders" viewBox="0 0 24 24">
+        <path d="M4 6h5M15 6h5M4 12h9M17 12h3M4 18h2M10 18h10" />
+        <circle cx="12" cy="6" r="2.1" />
+        <circle cx="14.5" cy="12" r="2.1" />
+        <circle cx="7.5" cy="18" r="2.1" />
+      </symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24">
+        <path d="m6 9 6 6 6-6" />
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24">
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </symbol>
+      <symbol id="i-arrow-up-right" viewBox="0 0 24 24">
+        <path d="M7 17 17 7M8 7h9v9" />
+      </symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24">
+        <path d="m12 3 1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3Z" />
+        <path d="m19 14 .9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9L19 14Z" />
+        <path d="m5 14.5.6 1.4 1.4.6-1.4.6L5 18.5l-.6-1.4-1.4-.6 1.4-.6.6-1.4Z" />
+      </symbol>
+      <symbol id="i-leaf" viewBox="0 0 24 24">
+        <path d="M20 4C12 4 5 8.1 5 15c0 3 2 5 5 5 7 0 10-8 10-16Z" />
+        <path d="M4.5 20.5C7 14.5 11.5 10.8 17 8.5" />
+      </symbol>
+      <symbol id="i-bowl" viewBox="0 0 24 24">
+        <path d="M3.8 11h16.4a8.2 8.2 0 0 1-16.4 0Z" />
+        <path d="M8 7.5c0-2 1.5-3.2 3-3.4M13.3 7.5c0-2 1.4-3.2 2.9-3.4" />
+        <path d="M9 21h6" />
+      </symbol>
+      <symbol id="i-info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 11v5.5M12 7.8h.01" />
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+      </symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24">
+        <path d="M20.4 14.8A8.5 8.5 0 0 1 9.2 3.6a8.5 8.5 0 1 0 11.2 11.2Z" />
+      </symbol>
+      <symbol id="i-monitor" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="13" rx="2" />
+        <path d="M8 21h8M12 17v4" />
+      </symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24">
+        <path d="M4 10a8 8 0 0 1 14-4l2 2M20 4v4h-4" />
+        <path d="M20 14a8 8 0 0 1-14 4l-2-2M4 20v-4h4" />
+      </symbol>
+      <symbol id="i-flame" viewBox="0 0 24 24">
+        <path d="M12 3c4 4 6 6.6 6 10a6 6 0 0 1-12 0c0-2 1-4 3-6 .3 2 1 3 2 3 0-3 .2-5 1-7Z" />
+      </symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24">
+        <path d="M4 7h16M10 11v5M14 11v5M6.5 7l.8 12h9.4l.8-12M9 7V4.5h6V7" />
+      </symbol>
+      <symbol id="i-scale" viewBox="0 0 24 24">
+        <path d="M12 4v16M6 8h12M4 8l-2 6h4L4 8ZM20 8l-2 6h4l-2-6Z" />
+      </symbol>
+      <symbol id="i-utensils" viewBox="0 0 24 24">
+        <path d="M7 3v7M4.5 3v4.5A2.5 2.5 0 0 0 7 10a2.5 2.5 0 0 0 2.5-2.5V3M7 10v11" />
+        <path d="M16 3c-1.3 2-2 4.2-2 6.5 0 1.9 1 3 2.5 3H18V21M18 3v18" />
+      </symbol>
+      <symbol id="i-chevron-left" viewBox="0 0 24 24">
+        <path d="m15 6-6 6 6 6" />
+      </symbol>
+      <symbol id="i-leaf-solid" viewBox="0 0 24 24">
+        <path d="M20 4C12 4 5 8.1 5 15c0 3 2 5 5 5 7 0 10-8 10-16Z" fill="currentColor" stroke="none" />
+      </symbol>
+    </svg>
+
+    <header class="site-header" id="top">
+      <div class="container header-inner">
+        <a class="brand" href="#top" aria-label="Forkful home">
+          <svg class="brand-mark" aria-hidden="true"><use href="#i-logo"></use></svg>
+          <span class="brand-name">Forkful<span class="brand-dot">.</span></span>
+          <span class="brand-tag">GTA</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#explore">Explore</a>
+          <a href="#method">How it works</a>
+        </nav>
+
+        <div class="header-actions">
+          <button class="meal-button" id="open-meal-top" type="button" aria-label="Open your meal">
+            <svg class="icon" aria-hidden="true"><use href="#i-bowl"></use></svg>
+            <span class="meal-button-text">My meal</span>
+            <span class="count-pill" id="meal-count-top">0</span>
+          </button>
+          <button
+            class="theme-button"
+            id="theme-toggle"
+            type="button"
+            aria-label="Theme: System, follows your device"
+            title="Theme: System"
+          >
+            <span class="theme-icon" aria-hidden="true">
+              <svg class="icon"><use href="#i-monitor"></use></svg>
+            </span>
+            <span class="theme-label">System</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-wash" aria-hidden="true"></div>
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <p class="eyebrow hero-eyebrow">
+              <span class="pulse-dot" aria-hidden="true"></span>
+              Healthy eating, GTA-wide
+            </p>
+            <h1 id="hero-title">Find your next <em>feel-good</em> meal.</h1>
+            <p class="hero-lede">
+              35 spots, 57 dishes and no vague “healthy” labels. Compare the numbers, filter by what
+              matters to you, and find something you actually want to eat.
+            </p>
+
+            <form class="search-form" id="search-form" role="search">
+              <button class="search-submit" type="submit" aria-label="Run search">
+                <svg class="icon search-icon" aria-hidden="true"><use href="#i-search"></use></svg>
+              </button>
+              <label class="sr-only" for="search-input">Search dishes, restaurants, or neighbourhoods</label>
+              <input
+                id="search-input"
+                type="search"
+                placeholder="Try “shawarma”, “Kensington” or “high protein”"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+              />
+              <kbd class="search-kbd" aria-hidden="true">⌘K</kbd>
+              <button class="search-clear" id="search-clear" type="button" aria-label="Clear search" hidden>
+                <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+              </button>
+            </form>
+
+            <div class="quick-row">
+              <span class="quick-label">Quick picks</span>
+              <div class="quick-filters" role="group" aria-label="Quick filters">
+                <button class="quick-chip" type="button" data-quick="plant" aria-pressed="false">
+                  <span aria-hidden="true">🥬</span> Plant-based
+                </button>
+                <button class="quick-chip" type="button" data-quick="protein" aria-pressed="false">
+                  <span aria-hidden="true">🥚</span> High protein
+                </button>
+                <button class="quick-chip" type="button" data-quick="light" aria-pressed="false">
+                  <span aria-hidden="true">🍋</span> Under 500 kcal
+                </button>
+                <button class="quick-chip" type="button" data-quick="halal" aria-pressed="false">
+                  <span aria-hidden="true">✦</span> Halal
+                </button>
+              </div>
+            </div>
+
+            <div class="hero-cta-row">
+              <button class="btn btn-primary" type="button" data-scroll-to="explore">
+                Explore the guide
+                <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+              </button>
+              <button class="btn btn-ghost" id="surprise-button" type="button">
+                <svg class="icon" aria-hidden="true"><use href="#i-sparkles"></use></svg>
+                Surprise me
+              </button>
+            </div>
+
+            <ul class="hero-stats">
+              <li>
+                <strong id="stat-places">35</strong>
+                <span>GTA spots</span>
+              </li>
+              <li>
+                <strong id="stat-dishes">57</strong>
+                <span>dishes with numbers</span>
+              </li>
+              <li>
+                <strong id="stat-cities">11</strong>
+                <span>cities covered</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="hero-visual">
+            <div class="hero-orbit" aria-hidden="true"></div>
+            <div class="hero-card" id="hero-card" aria-live="polite">
+              <div class="hero-card-skeleton" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="explore section" id="explore" aria-labelledby="explore-title">
+        <div class="container">
+          <div class="section-heading explore-heading">
+            <div>
+              <p class="eyebrow">Explore the guide</p>
+              <h2 id="explore-title">Good food, <em>filtered.</em></h2>
+              <p class="section-lede">
+                Search by neighbourhood, cuisine, or the numbers you care about. Swipe through dishes
+                when you want the details.
+              </p>
+            </div>
+            <div class="view-toggle" role="group" aria-label="Choose a view">
+              <button class="view-btn is-active" type="button" data-view="places" aria-pressed="true">
+                <svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>
+                Places
+              </button>
+              <button class="view-btn" type="button" data-view="dishes" aria-pressed="false">
+                <svg class="icon" aria-hidden="true"><use href="#i-bowl"></use></svg>
+                Dishes
+              </button>
+            </div>
+          </div>
+
+          <div class="explore-layout">
+            <div class="filters-backdrop" id="filters-backdrop" hidden></div>
+
+            <div class="filters" id="filters-panel" role="group" aria-label="Filters">
+              <div class="filters-head">
+                <div>
+                  <p class="overline">Refine</p>
+                  <h3>Your filters</h3>
+                </div>
+                <button class="icon-button" id="close-filters" type="button" aria-label="Close filters">
+                  <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+                </button>
+              </div>
+
+              <div class="filter-group">
+                <label for="city-filter">City</label>
+                <div class="select-wrap">
+                  <select id="city-filter"></select>
+                  <svg class="icon select-chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <label for="cuisine-filter">Cuisine</label>
+                <div class="select-wrap">
+                  <select id="cuisine-filter"></select>
+                  <svg class="icon select-chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+                </div>
+              </div>
+
+              <fieldset class="filter-group">
+                <legend>Dietary needs</legend>
+                <div class="diet-filters" id="diet-filters"></div>
+              </fieldset>
+
+              <div class="filter-group">
+                <div class="filter-label-row">
+                  <label for="max-calories">Max calories</label>
+                  <output id="max-calories-output" for="max-calories">Any</output>
+                </div>
+                <input type="range" id="max-calories" min="250" max="900" step="10" value="900" />
+                <div class="range-hints"><span>250</span><span>Any</span></div>
+              </div>
+
+              <div class="filter-group">
+                <div class="filter-label-row">
+                  <label for="min-protein">Protein per dish</label>
+                  <output id="min-protein-output" for="min-protein">Any</output>
+                </div>
+                <input type="range" id="min-protein" min="0" max="45" step="5" value="0" />
+                <div class="range-hints"><span>No minimum</span><span>45 g+</span></div>
+              </div>
+
+              <div class="filter-group filter-group-last">
+                <label class="switch-row">
+                  <span class="switch-copy">
+                    <strong>80+ health score</strong>
+                    <small>Only the strongest everyday picks</small>
+                  </span>
+                  <input type="checkbox" id="high-score" />
+                  <span class="switch" aria-hidden="true"></span>
+                </label>
+              </div>
+
+              <button class="btn btn-primary filters-apply" id="apply-filters" type="button">
+                Show results
+              </button>
+              <button class="text-button filters-reset" id="reset-filters" type="button">
+                <svg class="icon" aria-hidden="true"><use href="#i-refresh"></use></svg>
+                Reset filters
+              </button>
+            </div>
+
+            <div class="results-panel">
+              <div class="results-toolbar">
+                <div class="results-meta">
+                  <p class="results-count" id="results-count" aria-live="polite">Loading the good stuff…</p>
+                  <button class="filter-trigger" id="open-filters" type="button" aria-expanded="false" aria-controls="filters-panel">
+                    <svg class="icon" aria-hidden="true"><use href="#i-sliders"></use></svg>
+                    <span class="filter-label-text">Filters</span>
+                    <span class="filter-badge" id="filter-count" hidden>0</span>
+                  </button>
+                </div>
+                <div class="results-controls">
+                  <button class="control-button" id="near-me" type="button">
+                    <svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>
+                    <span>Near me</span>
+                  </button>
+                  <div class="select-wrap sort-wrap">
+                    <label class="sr-only" for="sort-select">Sort by</label>
+                    <select id="sort-select">
+                      <option value="recommended">Recommended</option>
+                      <option value="healthiest">Healthiest first</option>
+                      <option value="protein">Most protein</option>
+                      <option value="calories">Lightest first</option>
+                      <option value="rating">Top rated</option>
+                      <option value="nearest">Nearest first</option>
+                    </select>
+                    <svg class="icon select-chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+                  </div>
+                </div>
+              </div>
+
+              <div class="active-filters" id="active-filters" hidden></div>
+
+              <div class="card-grid" id="results-grid"></div>
+
+              <div class="empty-state" id="empty-state" hidden>
+                <div class="empty-icon" aria-hidden="true">🥣</div>
+                <h3>Nothing matches that combination.</h3>
+                <p>Try widening the calorie range, choosing another city, or removing a dietary filter.</p>
+                <button class="btn btn-primary" id="empty-reset" type="button">Start fresh</button>
+              </div>
+
+              <div class="results-note">
+                <svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg>
+                <p>
+                  Nutrition is estimated per serving. Menus change — use the numbers as a guide, not
+                  gospel.
+                </p>
+                <button class="text-button" type="button" data-open-about>How scores work</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="method section" id="method" aria-labelledby="method-title">
+        <div class="container">
+          <div class="method-intro">
+            <p class="eyebrow">How it works</p>
+            <h2 id="method-title">Less guessing. <em>More good bites.</em></h2>
+            <p class="section-lede">
+              Forkful does the spreadsheet part so you can spend more time eating and less time
+              squinting at calorie counts.
+            </p>
+          </div>
+
+          <div class="method-grid">
+            <article class="method-card">
+              <span class="method-number" data-number="01" aria-hidden="true"></span>
+              <div class="method-icon">
+                <svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg>
+              </div>
+              <h3>Find your fit</h3>
+              <p>
+                Filter by city, cuisine, diet or macros. The list responds instantly, across the
+                whole GTA.
+              </p>
+            </article>
+            <article class="method-card">
+              <span class="method-number" data-number="02" aria-hidden="true"></span>
+              <div class="method-icon">
+                <svg class="icon" aria-hidden="true"><use href="#i-scale"></use></svg>
+              </div>
+              <h3>Read the numbers</h3>
+              <p>
+                Every dish gets calories, protein, carbs, fat, fibre, sugar, sodium and saturated
+                fat — plus a 100-point health score.
+              </p>
+            </article>
+            <article class="method-card method-card-accent">
+              <span class="method-number" data-number="03" aria-hidden="true"></span>
+              <div class="method-icon">
+                <svg class="icon" aria-hidden="true"><use href="#i-bowl"></use></svg>
+              </div>
+              <h3>Build a plate</h3>
+              <p>
+                Add dishes to your meal to see the combined totals, macro split and a couple of
+                gentle suggestions.
+              </p>
+              <button class="text-button" type="button" data-open-meal>
+                Open your meal
+                <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+              </button>
+            </article>
+          </div>
+
+          <div class="method-callout">
+            <div class="method-callout-copy">
+              <span class="pill">The score, explained</span>
+              <h3>A simple 100-point health score.</h3>
+              <p>
+                We compare nutrient density per 100 kcal. Protein and fibre earn points. Sodium,
+                sugar and saturated fat take them back. Fried dishes get a small adjustment, and very
+                large servings lose a few points.
+              </p>
+              <button class="btn btn-secondary" type="button" data-open-about>
+                Read the method
+                <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+              </button>
+            </div>
+            <div class="score-factors" role="group" aria-label="Health score factors">
+              <div class="score-factor">
+                <span>Protein density</span>
+                <div class="factor-bar"><span style="width: 22%"></span></div>
+                <strong>22</strong>
+              </div>
+              <div class="score-factor">
+                <span>Fibre density</span>
+                <div class="factor-bar"><span style="width: 22%"></span></div>
+                <strong>22</strong>
+              </div>
+              <div class="score-factor">
+                <span>Lower sodium</span>
+                <div class="factor-bar"><span style="width: 20%"></span></div>
+                <strong>20</strong>
+              </div>
+              <div class="score-factor">
+                <span>Lower sugar</span>
+                <div class="factor-bar"><span style="width: 16%"></span></div>
+                <strong>16</strong>
+              </div>
+              <div class="score-factor">
+                <span>Lower saturated fat</span>
+                <div class="factor-bar"><span style="width: 10%"></span></div>
+                <strong>10</strong>
+              </div>
+              <div class="score-factor">
+                <span>Base score</span>
+                <div class="factor-bar"><span style="width: 10%"></span></div>
+                <strong>10</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing section" aria-labelledby="closing-title">
+        <div class="container closing-inner">
+          <div>
+            <p class="eyebrow">Your next meal is closer than you think</p>
+            <h2 id="closing-title">Eat well, <em>wherever you are.</em></h2>
+          </div>
+          <div class="closing-actions">
+            <button class="btn btn-primary" type="button" data-scroll-to="explore">
+              Find a spot
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </button>
+            <button class="btn btn-ghost" type="button" data-open-meal>
+              <svg class="icon" aria-hidden="true"><use href="#i-bowl"></use></svg>
+              Build a meal
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <a class="brand" href="#top" aria-label="Forkful home">
+            <svg class="brand-mark" aria-hidden="true"><use href="#i-logo"></use></svg>
+            <span class="brand-name">Forkful<span class="brand-dot">.</span></span>
+          </a>
+          <p>Good food, with the numbers attached. Built for the Greater Toronto Area.</p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="#explore">Explore</a>
+          <a href="#method">How it works</a>
+          <button class="footer-link" type="button" data-open-about>Scoring method</button>
+          <a href="https://github.com/JorgeQuijano/food-finder" target="_blank" rel="noreferrer">
+            GitHub
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg>
+          </a>
+        </nav>
+        <p class="footer-fineprint">
+          Independent project. Not affiliated with the restaurants listed. Menu items, ratings and
+          nutrition figures are illustrative estimates, not official restaurant data. This is not
+          medical advice. Confirm ingredients, allergens and current menus with the restaurant.
+        </p>
+        <div class="footer-bottom">
+          <span>Made for the GTA · <span id="footer-year">2026</span></span>
+          <span class="footer-theme">Follows your system theme by default.</span>
+        </div>
+      </div>
+    </footer>
+
+    <button class="meal-fab" id="open-meal-fab" type="button" hidden>
+      <span class="meal-fab-icon">
+        <svg class="icon" aria-hidden="true"><use href="#i-bowl"></use></svg>
+      </span>
+      <span class="meal-fab-copy">
+        <strong>Your meal</strong>
+        <small id="meal-fab-summary">0 items</small>
+      </span>
+      <svg class="icon meal-fab-arrow" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+    </button>
+
+    <dialog class="modal detail-modal" id="detail-dialog" aria-labelledby="detail-title">
+      <div class="modal-shell" id="detail-content"></div>
+    </dialog>
+
+    <dialog class="modal meal-modal" id="meal-dialog" aria-labelledby="meal-title">
+      <div class="modal-shell">
+        <div class="modal-topbar">
+          <div>
+            <p class="overline">Your plate</p>
+            <h2 id="meal-title">Build a better meal</h2>
+          </div>
+          <button class="modal-close" type="button" data-close-dialog aria-label="Close meal builder">
+            <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+          </button>
+        </div>
+        <div class="meal-content" id="meal-content"></div>
+      </div>
+    </dialog>
+
+    <dialog class="modal about-modal" id="about-dialog" aria-labelledby="about-title">
+      <div class="modal-shell">
+        <div class="modal-topbar">
+          <div>
+            <p class="overline">The fine print</p>
+            <h2 id="about-title">How Forkful works</h2>
+          </div>
+          <button class="modal-close" type="button" data-close-dialog aria-label="Close explanation">
+            <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+          </button>
+        </div>
+        <div class="modal-scroll about-content">
+          <p class="about-lede">
+            Forkful is a demo guide built to make comparing food a little less mysterious. Every dish
+            gets a 100-point score based on the nutrition estimate for one serving.
+          </p>
+
+          <div class="score-explainer">
+            <div class="score-explainer-row">
+              <span>Protein density</span>
+              <div class="factor-bar"><span style="width: 22%"></span></div>
+              <strong>22 pts</strong>
+            </div>
+            <div class="score-explainer-row">
+              <span>Fibre density</span>
+              <div class="factor-bar"><span style="width: 22%"></span></div>
+              <strong>22 pts</strong>
+            </div>
+            <div class="score-explainer-row">
+              <span>Lower sodium</span>
+              <div class="factor-bar"><span style="width: 20%"></span></div>
+              <strong>20 pts</strong>
+            </div>
+            <div class="score-explainer-row">
+              <span>Lower sugar</span>
+              <div class="factor-bar"><span style="width: 16%"></span></div>
+              <strong>16 pts</strong>
+            </div>
+            <div class="score-explainer-row">
+              <span>Lower saturated fat</span>
+              <div class="factor-bar"><span style="width: 10%"></span></div>
+              <strong>10 pts</strong>
+            </div>
+            <div class="score-explainer-row">
+              <span>Base score</span>
+              <div class="factor-bar"><span style="width: 10%"></span></div>
+              <strong>10 pts</strong>
+            </div>
+          </div>
+
+          <h3>Why per 100 kcal?</h3>
+          <p>
+            It lets a small snack and a big bowl compete on the same terms. A dish earns the full
+            protein score at 8 g of protein per 100 kcal and the full fibre score at 3 g per 100 kcal.
+            Sodium is rewarded below 100 mg per 100 kcal, sugar below 1 g per 100 kcal, and saturated
+            fat below 1.5 g per 100 kcal.
+          </p>
+          <p>
+            Fried dishes lose 8 points. Very sweet items get a small extra deduction, and single
+            servings over 700 kcal lose 3 points. Scores are rounded and capped between 0 and 100.
+          </p>
+
+          <h3>The bands</h3>
+          <div class="band-list">
+            <span class="band-pill band-excellent">80–100 · Excellent</span>
+            <span class="band-pill band-strong">70–79 · Strong</span>
+            <span class="band-pill band-balanced">60–69 · Balanced</span>
+            <span class="band-pill band-treat">Under 60 · Treat</span>
+          </div>
+
+          <div class="callout">
+            <svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg>
+            <div>
+              <strong>These numbers are estimates.</strong>
+              <p>
+                Menus, portions and recipes change. This independent demo is not affiliated with or
+                endorsed by the restaurants listed, and it is not medical advice. If you have
+                allergies or a medical condition, confirm details directly with the restaurant and a
+                qualified professional.
+              </p>
+            </div>
+          </div>
+
+          <p class="about-meta">Daily value references use a 2,000 kcal diet. Your needs may differ.</p>
+        </div>
+      </div>
+    </dialog>
+
+    <div class="sr-only" id="a11y-status" role="status" aria-live="polite"></div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+      <span class="toast-icon" aria-hidden="true">
+        <svg class="icon"><use href="#i-check"></use></svg>
+      </span>
+      <span class="toast-message" id="toast-message"></span>
+      <button class="toast-action" id="toast-action" type="button" hidden></button>
+      <button class="toast-close" id="toast-close" type="button" aria-label="Dismiss notification">
+        <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+      </button>
+    </div>
+
+    <noscript>
+      <div class="noscript-note">Forkful needs JavaScript to filter dishes and build your meal.</div>
+    </noscript>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
