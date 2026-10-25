@@ -817,6 +817,49 @@ h2 em {
   margin-left: auto;
 }
 
+.region-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  flex: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-2);
+}
+
+.region-btn {
+  min-height: 30px;
+  padding: 0 0.55rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.region-btn:hover {
+  color: var(--ink);
+}
+
+.region-btn[aria-pressed="true"] {
+  background: var(--brand);
+  color: var(--brand-contrast);
+}
+
+.region-btn[aria-pressed="true"]:hover {
+  color: var(--brand-contrast);
+}
+
+.region-label-narrow {
+  display: none;
+}
+
 .meal-button,
 .theme-button {
   display: inline-flex;
@@ -4783,6 +4826,10 @@ dialog.about-modal {
     gap: 0.7rem;
   }
 
+  .meal-button .count-pill:not(.has-items) {
+    display: none;
+  }
+
   .brand-tag {
     display: none;
   }
@@ -4983,6 +5030,16 @@ dialog.about-modal {
 
   .header-actions {
     gap: 0.35rem;
+  }
+
+  .region-switch {
+    padding: 2px;
+  }
+
+  .region-btn {
+    min-height: 30px;
+    padding: 0 0.45rem;
+    font-size: 0.62rem;
   }
 
   .brand-name {
@@ -5208,6 +5265,10 @@ dialog.about-modal {
 @media (max-width: 390px) {
   .container {
     width: min(100% - 1.15rem, 1240px);
+  }
+
+  .meal-button .count-pill {
+    display: none;
   }
 
   .hero h1 {

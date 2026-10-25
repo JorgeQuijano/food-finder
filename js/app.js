@@ -3,12 +3,12 @@ import {
   dishes,
   dishById,
   restaurantById,
-  cities,
-  cuisines,
+  regions,
+  cuisinesByRegion,
   dietFilters,
   dietLabels,
   dishTagLabels,
-  stats,
+  regionStats,
   DATA_NOTE,
   getPlaceDishes,
 } from "./data.js";
@@ -102,6 +102,7 @@ const SEARCH_ALIASES = {
 };
 
 const DEFAULT_STATE = {
+  region: "gta",
   q: "",
   city: "all",
   cuisine: "all",
@@ -168,6 +169,8 @@ function cacheElements() {
 
   els.explore = $("#explore");
   els.viewButtons = $$("[data-view]");
+  els.regionButtons = $$("[data-region]");
+  els.cityFilterGroup = $("#city-filter-group");
   els.cityFilter = $("#city-filter");
   els.cuisineFilter = $("#cuisine-filter");
   els.dietFilters = $("#diet-filters");
@@ -193,8 +196,10 @@ function cacheElements() {
 
   els.heroCard = $("#hero-card");
   els.statPlaces = $("#stat-places");
+  els.statPlacesLabel = $("#stat-places-label");
   els.statDishes = $("#stat-dishes");
   els.statCities = $("#stat-cities");
+  els.statCitiesLabel = $("#stat-cities-label");
   els.surpriseButton = $("#surprise-button");
 
   els.themeToggle = $("#theme-toggle");
@@ -234,14 +239,16 @@ function announce(message) {
 function readUrlState() {
   const params = new URLSearchParams(window.location.search);
 
+  if (params.get("region") === "london") state.region = "london";
+
   const query = params.get("q");
   if (query) state.q = query.slice(0, 100);
 
   const city = params.get("city");
-  if (cities.includes(city)) state.city = city;
+  if (state.region === "gta" && regions.gta.cities.includes(city)) state.city = city;
 
   const cuisine = params.get("cuisine");
-  if (cuisines.includes(cuisine)) state.cuisine = cuisine;
+  if (cuisinesByRegion[state.region]?.includes(cuisine)) state.cuisine = cuisine;
 
   const diets = params.get("diets");
   if (diets) {
@@ -293,8 +300,9 @@ function scheduleUrlSync() {
 function syncUrl() {
   const params = new URLSearchParams();
 
+  if (state.region === "london") params.set("region", "london");
   if (state.q.trim()) params.set("q", state.q.trim());
-  if (state.city !== "all") params.set("city", state.city);
+  if (state.region === "gta" && state.city !== "all") params.set("city", state.city);
   if (state.cuisine !== "all") params.set("cuisine", state.cuisine);
   if (state.diets.length) params.set("diets", state.diets.join(","));
   if (state.maxCal < 900) params.set("maxCal", String(state.maxCal));
@@ -393,16 +401,6 @@ function applyTheme(preference, { persist = true } = {}) {
    -------------------------------------------------------------------------- */
 
 function populateFilters() {
-  els.cityFilter.innerHTML =
-    `<option value="all">All GTA</option>` +
-    cities.map((city) => `<option value="${escapeHTML(city)}">${escapeHTML(city)}</option>`).join("");
-
-  els.cuisineFilter.innerHTML =
-    `<option value="all">All cuisines</option>` +
-    cuisines
-      .map((cuisine) => `<option value="${escapeHTML(cuisine)}">${escapeHTML(cuisine)}</option>`)
-      .join("");
-
   els.dietFilters.innerHTML = dietFilters
     .map(
       (diet) =>
@@ -414,6 +412,57 @@ function populateFilters() {
     const isApple = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent);
     els.searchKbd.textContent = isApple ? "⌘K" : "Ctrl K";
   }
+
+  populateRegionFilterOptions();
+}
+
+function populateRegionFilterOptions() {
+  const region = regions[state.region] || regions.gta;
+  const regionCities = region.cities;
+  const cityLabel = state.region === "london" ? "All London" : "All GTA";
+
+  els.cityFilter.innerHTML =
+    `<option value="all">${cityLabel}</option>` +
+    regionCities
+      .map((city) => `<option value="${escapeHTML(city)}">${escapeHTML(city)}</option>`)
+      .join("");
+
+  els.cuisineFilter.innerHTML =
+    `<option value="all">All cuisines</option>` +
+    (cuisinesByRegion[state.region] || cuisinesByRegion.gta)
+      .map((cuisine) => `<option value="${escapeHTML(cuisine)}">${escapeHTML(cuisine)}</option>`)
+      .join("");
+}
+
+function syncRegionUI() {
+  const region = regions[state.region] || regions.gta;
+
+  els.regionButtons.forEach((button) => {
+    const active = button.dataset.region === state.region;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+
+  els.cityFilterGroup.hidden = state.region === "london";
+  els.searchInput.placeholder = region.searchPlaceholder;
+}
+
+function switchRegion(regionKey) {
+  if (!regions[regionKey] || state.region === regionKey) return;
+
+  state.region = regionKey;
+  state.city = "all";
+
+  if (!(cuisinesByRegion[regionKey] || []).includes(state.cuisine)) {
+    state.cuisine = "all";
+  }
+
+  populateRegionFilterOptions();
+  syncAllControls();
+  renderHero();
+  renderStats();
+  renderResults();
+  announce(`Now exploring ${regions[regionKey].label}.`);
 }
 
 function syncAllControls() {
@@ -423,6 +472,7 @@ function syncAllControls() {
 }
 
 function syncFilterControls() {
+  syncRegionUI();
   els.cityFilter.value = state.city;
   els.cuisineFilter.value = state.cuisine;
   els.maxCalories.value = String(state.maxCal);
@@ -594,9 +644,14 @@ function applyQuickFilter(key) {
    -------------------------------------------------------------------------- */
 
 function renderStats() {
-  els.statPlaces.textContent = String(stats.places);
-  els.statDishes.textContent = String(stats.dishes);
-  els.statCities.textContent = String(stats.cities);
+  const summary = regionStats[state.region] || regionStats.gta;
+  const region = regions[state.region] || regions.gta;
+
+  els.statPlaces.textContent = String(summary.places);
+  els.statPlacesLabel.textContent = `${region.shortLabel} spots`;
+  els.statDishes.textContent = String(summary.dishes);
+  els.statCities.textContent = String(summary.cities);
+  els.statCitiesLabel.textContent = summary.cities === 1 ? "city covered" : "cities covered";
 }
 
 function dayOfYear(date = new Date()) {
@@ -605,15 +660,21 @@ function dayOfYear(date = new Date()) {
 }
 
 function renderHero() {
-  const candidates = dishes
+  const regionDishes = dishes.filter((dish) =>
+    dish.locations.some((location) => location.region === state.region),
+  );
+  const candidates = regionDishes
     .filter((dish) => dish.score >= 75)
     .sort((a, b) => b.score - a.score || b.protein - a.protein)
     .slice(0, 16);
 
-  const pick = candidates[dayOfYear() % candidates.length] || dishes[0];
+  const pick = candidates[dayOfYear() % Math.max(candidates.length, 1)] || regionDishes[0];
   if (!pick) return;
 
-  const location = pickBestLocation(pick.locations);
+  const regionLocations = pick.locations.filter(
+    (location) => location.region === state.region,
+  );
+  const location = pickBestLocation(regionLocations);
   if (!location) return;
 
   const insights = getDishInsights(pick);
@@ -723,6 +784,7 @@ function getPlaceResults(query) {
   const results = [];
 
   for (const place of restaurants) {
+    if (place.region !== state.region) continue;
     if (state.city !== "all" && place.city !== state.city) continue;
     if (state.cuisine !== "all" && place.cuisine !== state.cuisine) continue;
 
@@ -795,6 +857,7 @@ function getDishResults(query) {
     if (!matchesNumericFilters(dish) || !matchesDiets(dish)) continue;
 
     const locations = dish.locations.filter((location) => {
+      if (location.region !== state.region) return false;
       if (state.city !== "all" && location.city !== state.city) return false;
       if (state.cuisine !== "all") {
         const place = restaurantById.get(location.id);
@@ -894,7 +957,13 @@ function renderResults() {
   if (state.sort === "nearest" && !userLocation) state.sort = "recommended";
 
   const query = norm(state.q);
-  const cityText = state.city === "all" ? "" : ` in ${escapeHTML(state.city)}`;
+  const areaLabel =
+    state.city !== "all"
+      ? state.city
+      : state.region === "london"
+        ? regions.london.shortLabel
+        : "the GTA";
+  const areaText = ` in ${escapeHTML(areaLabel)}`;
   const queryText = query ? ` for “${escapeHTML(state.q.trim())}”` : "";
 
   if (state.view === "places") {
@@ -910,8 +979,8 @@ function renderResults() {
 
     els.resultsCount.innerHTML =
       results.length === 0
-        ? `<strong>No places</strong> match${cityText}${queryText}`
-        : `<strong>${results.length}</strong> ${plural(results.length, "place")}${cityText}${queryText} <span class="results-sep">·</span> ${matchingDishes} matching ${plural(matchingDishes, "dish", "dishes")}`;
+        ? `<strong>No places</strong> match${areaText}${queryText}`
+        : `<strong>${results.length}</strong> ${plural(results.length, "place")}${areaText}${queryText} <span class="results-sep">·</span> ${matchingDishes} matching ${plural(matchingDishes, "dish", "dishes")}`;
   } else {
     const results = getDishResults(query);
     lastResultCount = results.length;
@@ -924,8 +993,8 @@ function renderResults() {
 
     els.resultsCount.innerHTML =
       results.length === 0
-        ? `<strong>No dishes</strong> match${cityText}${queryText}`
-        : `<strong>${results.length}</strong> ${plural(results.length, "dish", "dishes")}${cityText}${queryText} <span class="results-sep">·</span> across ${locationCount} ${plural(locationCount, "spot")}`;
+        ? `<strong>No dishes</strong> match${areaText}${queryText}`
+        : `<strong>${results.length}</strong> ${plural(results.length, "dish", "dishes")}${areaText}${queryText} <span class="results-sep">·</span> across ${locationCount} ${plural(locationCount, "spot")}`;
   }
 
   els.sortSelect.value = state.sort;
@@ -1155,6 +1224,10 @@ function showDetailHtml(html) {
 function dishDetailHtml(dish) {
   const insights = getDishInsights(dish);
   const locations = [...dish.locations].sort((a, b) => {
+    const aIsCurrentRegion = a.region === state.region ? 0 : 1;
+    const bIsCurrentRegion = b.region === state.region ? 0 : 1;
+    if (aIsCurrentRegion !== bIsCurrentRegion) return aIsCurrentRegion - bIsCurrentRegion;
+
     if (userLocation) {
       return (
         distanceKm(userLocation.lat, userLocation.lng, a.lat, a.lng) -
@@ -1255,7 +1328,7 @@ function dishDetailHtml(dish) {
     <div class="modal-topbar">
       <div>
         <p class="overline">Dish breakdown</p>
-        <p class="modal-context">${escapeHTML(dish.serving)} · ${escapeHTML(primaryPlace?.cuisine || "GTA")}</p>
+        <p class="modal-context">${escapeHTML(dish.serving)} · ${escapeHTML(primaryPlace?.cuisine || "Ontario")}</p>
       </div>
       <button class="modal-close" type="button" data-close-dialog aria-label="Close dish details">
         ${icon("x")}
@@ -1266,11 +1339,11 @@ function dishDetailHtml(dish) {
         <div class="detail-emoji" aria-hidden="true">${escapeHTML(dish.emoji)}</div>
         <div class="detail-heading">
           <p class="detail-breadcrumb">
-            <span>${escapeHTML(primaryPlace?.cuisine || "GTA find")}</span>
+            <span>${escapeHTML(primaryPlace?.cuisine || "GTA + London find")}</span>
             <span aria-hidden="true">·</span>
             <button type="button" data-open-place="${escapeHTML(primary?.id || "")}">${escapeHTML(primary?.name || "Find a spot")}</button>
             <span aria-hidden="true">·</span>
-            <span>${escapeHTML(primary ? `${primary.area}, ${primary.city}` : "GTA")}</span>
+            <span>${escapeHTML(primary ? `${primary.area}, ${primary.city}` : "Ontario")}</span>
           </p>
           <h2 id="detail-title">${escapeHTML(dish.name)}</h2>
           <p class="detail-desc">${escapeHTML(dish.description)}</p>
@@ -1688,7 +1761,8 @@ function renderMeal() {
       : null;
 
   if (!entries.length) {
-    const suggestions = [...dishes]
+    const suggestions = dishes
+      .filter((dish) => dish.locations.some((location) => location.region === state.region))
       .sort((a, b) => b.score - a.score || a.calories - b.calories)
       .slice(0, 3);
 
@@ -1701,13 +1775,16 @@ function renderMeal() {
           <p class="suggestion-label">Three strong places to start</p>
           ${suggestions
             .map((dish) => {
-              const location = pickBestLocation(dish.locations);
+              const regionLocations = dish.locations.filter(
+                (location) => location.region === state.region,
+              );
+              const location = pickBestLocation(regionLocations.length ? regionLocations : dish.locations);
               return `
                 <button class="suggestion" type="button" data-add-dish="${escapeHTML(dish.id)}">
                   <span class="suggestion-emoji" aria-hidden="true">${escapeHTML(dish.emoji)}</span>
                   <span class="suggestion-copy">
                     <strong>${escapeHTML(dish.name)}</strong>
-                    <small>${escapeHTML(location?.name || "GTA")} · ${formatCalories(dish.calories)} kcal · ${dish.score}/100</small>
+                    <small>${escapeHTML(location?.name || "Ontario")} · ${formatCalories(dish.calories)} kcal · ${dish.score}/100</small>
                   </span>
                   <span class="suggestion-btn">${icon("plus")} Add</span>
                 </button>`;
@@ -1743,10 +1820,14 @@ function renderMeal() {
   const items = entries
     .map((entry) => {
       const dish = entry.dish;
-      const location = pickBestLocation(dish.locations);
+      const regionLocations = dish.locations.filter(
+        (location) => location.region === state.region,
+      );
+      const availableLocations = regionLocations.length ? regionLocations : dish.locations;
+      const location = pickBestLocation(availableLocations);
       const locationText = location
-        ? `${location.name} · ${location.area}${dish.locations.length > 1 ? ` +${dish.locations.length - 1}` : ""}`
-        : "GTA";
+        ? `${location.name} · ${location.area}${availableLocations.length > 1 ? ` +${availableLocations.length - 1}` : ""}`
+        : "Ontario";
 
       return `
         <li class="meal-item">
@@ -2099,8 +2180,11 @@ function setupHeaderScroll() {
 }
 
 function surpriseMe() {
-  const strongPicks = dishes.filter((dish) => dish.score >= 74);
-  const pool = strongPicks.length ? strongPicks : dishes;
+  const regionDishes = dishes.filter((dish) =>
+    dish.locations.some((location) => location.region === state.region),
+  );
+  const strongPicks = regionDishes.filter((dish) => dish.score >= 74);
+  const pool = strongPicks.length ? strongPicks : regionDishes;
   const pick = pool[Math.floor(Math.random() * pool.length)];
   if (pick) openDishDetail(pick.id);
 }
@@ -2110,6 +2194,10 @@ function surpriseMe() {
    -------------------------------------------------------------------------- */
 
 function bindEvents() {
+  els.regionButtons.forEach((button) => {
+    button.addEventListener("click", () => switchRegion(button.dataset.region));
+  });
+
   els.searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
     scrollToExplore();
@@ -2130,7 +2218,11 @@ function bindEvents() {
   });
 
   els.cityFilter.addEventListener("change", () => {
-    state.city = els.cityFilter.value;
+    if (state.region !== "gta") {
+      state.city = "all";
+    } else {
+      state.city = els.cityFilter.value;
+    }
     syncFilterControls();
     renderResults();
   });

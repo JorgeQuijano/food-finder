@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Forkful — Find healthy food across the GTA</title>
+    <title>Forkful — Find healthy food across the GTA and London</title>
     <meta
       name="description"
-      content="Forkful is a GTA-wide guide to healthier dishes and spots. Compare calories, protein, fibre, sodium and more, then build a better meal."
+      content="Forkful is a guide to healthier dishes and spots across the GTA and London, Ontario. Compare calories, protein, fibre, sodium and more, then build a better meal."
     />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#f6f2e8" id="theme-color-meta" />
     <meta name="author" content="Jorge Quijano" />
-    <meta property="og:title" content="Forkful — Find healthy food across the GTA" />
+    <meta property="og:title" content="Forkful — Find healthy food across the GTA and London" />
     <meta
       property="og:description"
-      content="Compare the numbers behind 57 dishes at 35 GTA spots, filter by what matters, and build a better meal."
+      content="Compare the numbers behind 75 dishes at 43 GTA and London spots, filter by what matters, and build a better meal."
     />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_CA" />
@@ -25,13 +25,13 @@
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Forkful, a GTA healthy food guide, showing a Hibiscus Bowl nutrition card."
+      content="Forkful, a GTA and London healthy food guide, showing a dish nutrition card."
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Forkful — Find healthy food across the GTA" />
+    <meta name="twitter:title" content="Forkful — Find healthy food across the GTA and London" />
     <meta
       name="twitter:description"
-      content="Compare the numbers behind 57 dishes at 35 GTA spots, filter by what matters, and build a better meal."
+      content="Compare the numbers behind 75 dishes at 43 GTA and London spots, filter by what matters, and build a better meal."
     />
     <meta name="twitter:image" content="https://jorgequijano.github.io/food-finder/assets/preview.png" />
     <link rel="canonical" href="https://jorgequijano.github.io/food-finder/" />
@@ -163,7 +163,7 @@
         <a class="brand" href="#top" aria-label="Forkful home">
           <svg class="brand-mark" aria-hidden="true"><use href="#i-logo"></use></svg>
           <span class="brand-name">Forkful<span class="brand-dot">.</span></span>
-          <span class="brand-tag">GTA</span>
+          <span class="brand-tag">GTA + LDN</span>
         </a>
 
         <nav class="site-nav" aria-label="Primary">
@@ -172,6 +172,30 @@
         </nav>
 
         <div class="header-actions">
+          <div class="region-switch" role="group" aria-label="Choose a city">
+            <button
+              class="region-btn is-active"
+              type="button"
+              data-region="gta"
+              aria-pressed="true"
+              aria-label="Greater Toronto Area"
+              title="Greater Toronto Area"
+            >
+              <span class="region-label-wide">GTA</span>
+              <span class="region-label-narrow">GTA</span>
+            </button>
+            <button
+              class="region-btn"
+              type="button"
+              data-region="london"
+              aria-pressed="false"
+              aria-label="London, Ontario"
+              title="London, Ontario"
+            >
+              <span class="region-label-wide">London</span>
+              <span class="region-label-narrow">LDN</span>
+            </button>
+          </div>
           <button class="meal-button" id="open-meal-top" type="button" aria-label="Open your meal">
             <svg class="icon" aria-hidden="true"><use href="#i-bowl"></use></svg>
             <span class="meal-button-text">My meal</span>
@@ -200,11 +224,11 @@
           <div class="hero-copy">
             <p class="eyebrow hero-eyebrow">
               <span class="pulse-dot" aria-hidden="true"></span>
-              Healthy eating, GTA-wide
+              Healthy eating, GTA + London
             </p>
             <h1 id="hero-title">Find your next <em>feel-good</em> meal.</h1>
             <p class="hero-lede">
-              35 spots, 57 dishes and no vague “healthy” labels. Compare the numbers, filter by what
+              Two cities, one guide. Compare the numbers behind GTA and London dishes, filter by what
               matters to you, and find something you actually want to eat.
             </p>
 
@@ -259,7 +283,7 @@
             <ul class="hero-stats">
               <li>
                 <strong id="stat-places">35</strong>
-                <span>GTA spots</span>
+                <span id="stat-places-label">GTA spots</span>
               </li>
               <li>
                 <strong id="stat-dishes">57</strong>
@@ -267,7 +291,7 @@
               </li>
               <li>
                 <strong id="stat-cities">11</strong>
-                <span>cities covered</span>
+                <span id="stat-cities-label">cities covered</span>
               </li>
             </ul>
           </div>
@@ -320,7 +344,7 @@
                 </button>
               </div>
 
-              <div class="filter-group">
+              <div class="filter-group" id="city-filter-group">
                 <label for="city-filter">City</label>
                 <div class="select-wrap">
                   <select id="city-filter"></select>
@@ -452,8 +476,8 @@
               </div>
               <h3>Find your fit</h3>
               <p>
-                Filter by city, cuisine, diet or macros. The list responds instantly, across the
-                whole GTA.
+                Switch between the GTA and London, then filter by city, cuisine, diet or macros. The
+                list responds instantly.
               </p>
             </article>
             <article class="method-card">
@@ -561,7 +585,7 @@
             <svg class="brand-mark" aria-hidden="true"><use href="#i-logo"></use></svg>
             <span class="brand-name">Forkful<span class="brand-dot">.</span></span>
           </a>
-          <p>Good food, with the numbers attached. Built for the Greater Toronto Area.</p>
+          <p>Good food, with the numbers attached. Built for the GTA and London, Ontario.</p>
         </div>
         <nav class="footer-nav" aria-label="Footer">
           <a href="#explore">Explore</a>
@@ -578,7 +602,7 @@
           medical advice. Confirm ingredients, allergens and current menus with the restaurant.
         </p>
         <div class="footer-bottom">
-          <span>Made for the GTA · <span id="footer-year">2026</span></span>
+          <span>Made for the GTA + London · <span id="footer-year">2026</span></span>
           <span class="footer-theme">Follows your system theme by default.</span>
         </div>
       </div>
@@ -627,8 +651,9 @@
         </div>
         <div class="modal-scroll about-content">
           <p class="about-lede">
-            Forkful is a demo guide built to make comparing food a little less mysterious. Every dish
-            gets a 100-point score based on the nutrition estimate for one serving.
+            Forkful is a two-city demo guide for the GTA and London, built to make comparing food a
+            little less mysterious. Every dish gets a 100-point score based on the nutrition estimate
+            for one serving.
           </p>
 
           <div class="score-explainer">

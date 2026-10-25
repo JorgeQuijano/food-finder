@@ -1,22 +1,23 @@
 # Forkful
 
-**Find your next feel-good meal.** Forkful is a GTA-wide guide to healthier dishes, with the numbers attached: calories, protein, carbs, fat, fibre, sugar, sodium, saturated fat and a transparent 100-point health score.
+**Find your next feel-good meal.** Forkful is a two-city guide to healthier dishes across the Greater Toronto Area and London, Ontario, with the numbers attached: calories, protein, carbs, fat, fibre, sugar, sodium, saturated fat and a transparent 100-point health score.
 
-[Live site](https://jorgequijano.github.io/food-finder/) · [How the score works](https://jorgequijano.github.io/food-finder/#method)
+[Live site](https://jorgequijano.github.io/food-finder/) · [London guide](https://jorgequijano.github.io/food-finder/?region=london) · [How the score works](https://jorgequijano.github.io/food-finder/#method)
 
 ![Forkful preview](assets/preview.png)
 
 ## What it does
 
-- **Search the whole guide** by dish, restaurant, cuisine or neighbourhood. Filters live in the URL, so a search can be shared.
-- **Filter with intent** by city, cuisine, plant-based / vegetarian / halal / gluten-free / dairy-free options, max calories, minimum protein and an 80+ health score.
+- **Switch cities in one tap** between the GTA (35 spots) and London (8 spots) using the header pills. The selection is reflected in the hero, stats, search placeholder, filters and shareable URL.
+- **Search both city guides** by dish, restaurant, cuisine or neighbourhood. Filters live in the URL, so a search can be shared.
+- **Filter with intent** by GTA city, cuisine, plant-based / vegetarian / halal / gluten-free / dairy-free options, max calories, minimum protein and an 80+ health score.
 - **Browse places or dishes** — see the best matching dish at each spot, or line individual dishes up by health score, protein, calories, rating or distance.
 - **Read the full breakdown** on every dish: calories, protein, carbs, fat, saturated fat, fibre, sugar and sodium, with a macro split and % daily values based on a 2,000 kcal reference diet.
 - **Build a plate** with the meal builder. It tracks combined calories and macros, compares the total to a 1,600 / 2,000 / 2,500 kcal reference, and offers a couple of practical nudges.
 - **Near me** uses your browser location (only when you ask) to sort by approximate straight-line distance to neighbourhood centres.
 - **System theme first** — Forkful follows your device’s light/dark setting by default, with a manual System / Light / Dark switch that persists.
 
-The interface is responsive down to 320px, uses native dialogs and a focus-trapped filter drawer, and has been checked against axe-core for WCAG 2.1 A/AA and best-practice rules in both themes.
+The interface is responsive down to 320px, uses native dialogs and a focus-trapped filter drawer, and has been checked against axe-core for WCAG 2.1 A/AA and best-practice rules in both themes and both city modes.
 
 ## Run it locally
 
@@ -49,7 +50,7 @@ Bands: **80–100 Excellent**, **70–79 Strong**, **60–69 Balanced**, **under
 
 ## Data & caveats
 
-This is an independent demo project. Restaurant names are used for place-finding context; it is not affiliated with or endorsed by any restaurant.
+This is an independent demo project covering 43 spots and 75 dishes across the GTA and London. Restaurant names are used for place-finding context; it is not affiliated with or endorsed by any restaurant.
 
 Menu items, ratings, locations and nutrition figures are illustrative estimates for typical servings, not official restaurant data. Menus and recipes change, and the map links point to neighbourhood-level searches rather than exact doors. Confirm ingredients, allergens, hours and current menus with the restaurant. Nothing here is medical advice.
 
@@ -68,8 +69,8 @@ food-finder/
 ├── css/
 │   └── styles.css
 ├── js/
-│   ├── app.js       # UI, filtering, dialogs, meal builder, theme
-│   ├── data.js      # GTA spots and sample menus
+│   ├── app.js       # UI, city switch, filtering, dialogs, meal builder, theme
+│   ├── data.js      # GTA + London spots, regions and sample menus
 │   └── nutrition.js # scoring and nutrition helpers
 ├── assets/
 │   ├── favicon.svg
@@ -98,4 +99,4 @@ gh api --method POST repos/JorgeQuijano/food-finder/pages \
 
 - [DM Sans](https://fonts.google.com/specimen/DM+Sans) and [Fraunces](https://fonts.google.com/specimen/Fraunces), licensed under the SIL Open Font License.
 - [Noto Emoji](https://fonts.google.com/noto/specimen/Noto+Emoji), used as a monochrome fallback for food emoji on systems without an emoji font, licensed under the SIL Open Font License.
-- Built with care for the GTA.
+- Built with care for the GTA and London.

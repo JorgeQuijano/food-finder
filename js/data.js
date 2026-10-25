@@ -1016,6 +1016,324 @@ const menus = {
       tags: ["high-protein", "dairy-free"],
     },
   ],
+  plantmatter: [
+    {
+      key: "harvest-bowl",
+      name: "Harvest Bowl",
+      emoji: "🥬",
+      description:
+        "Brown rice, roasted squash, kale, chickpeas, pickled cabbage and a maple-tahini dressing.",
+      serving: "1 bowl",
+      calories: 540,
+      protein: 20,
+      carbs: 62,
+      fat: 24,
+      fiber: 12,
+      sugar: 8,
+      sodium: 420,
+      satFat: 3.5,
+      tags: ["plant-based", "high-fiber", "gluten-free"],
+    },
+    {
+      key: "tempeh-reuben",
+      name: "Tempeh Reuben",
+      emoji: "🥪",
+      description:
+        "Smoky tempeh, sauerkraut, tomato and Russian dressing on toasted rye with a side salad.",
+      serving: "1 sandwich",
+      calories: 520,
+      protein: 24,
+      carbs: 54,
+      fat: 24,
+      fiber: 9,
+      sugar: 7,
+      sodium: 720,
+      satFat: 3.5,
+      tags: ["plant-based", "high-protein"],
+    },
+    {
+      key: "plantmatter-caesar",
+      name: "Kale Caesar",
+      emoji: "🥗",
+      description:
+        "Massaged kale, crispy chickpeas, capers, toasted seeds and a creamy cashew Caesar.",
+      serving: "1 bowl",
+      calories: 390,
+      protein: 14,
+      carbs: 26,
+      fat: 26,
+      fiber: 8,
+      sugar: 5,
+      sodium: 520,
+      satFat: 4.5,
+      tags: ["plant-based", "high-fiber"],
+    },
+  ],
+  rootcellar: [
+    {
+      key: "root-bowl",
+      name: "Root Cellar Bowl",
+      emoji: "🥣",
+      description:
+        "Brown rice, roast vegetables, beet, avocado, sprouts and a bright lemon-herb dressing.",
+      serving: "1 bowl",
+      calories: 560,
+      protein: 18,
+      carbs: 64,
+      fat: 26,
+      fiber: 12,
+      sugar: 9,
+      sodium: 480,
+      satFat: 4,
+      tags: ["vegetarian", "high-fiber", "gluten-free"],
+    },
+    {
+      key: "turmeric-lentil",
+      name: "Turmeric Lentil Soup",
+      emoji: "🍲",
+      description:
+        "Red lentils, coconut milk, turmeric, ginger and spinach with a squeeze of lime.",
+      serving: "1 bowl",
+      calories: 290,
+      protein: 15,
+      carbs: 40,
+      fat: 8,
+      fiber: 11,
+      sugar: 6,
+      sodium: 460,
+      satFat: 1.5,
+      tags: ["plant-based", "high-fiber", "gluten-free"],
+    },
+    {
+      key: "market-salad",
+      name: "Market Salad",
+      emoji: "🥗",
+      description:
+        "Seasonal greens, shaved vegetables, feta, toasted seeds and a cider vinaigrette.",
+      serving: "1 bowl",
+      calories: 340,
+      protein: 10,
+      carbs: 30,
+      fat: 20,
+      fiber: 8,
+      sugar: 7,
+      sodium: 300,
+      satFat: 3,
+      tags: ["vegetarian", "high-fiber", "gluten-free"],
+    },
+  ],
+  baglady: [
+    {
+      key: "bag-lady-salad",
+      name: "Bag Lady Salad",
+      emoji: "🥗",
+      description:
+        "Mixed greens, roasted chicken, avocado, tomato, cucumber and a lemon-mustard dressing.",
+      serving: "1 bowl",
+      calories: 380,
+      protein: 15,
+      carbs: 34,
+      fat: 21,
+      fiber: 8,
+      sugar: 8,
+      sodium: 420,
+      satFat: 3.5,
+      tags: ["vegetarian", "high-fiber", "gluten-free"],
+    },
+    {
+      key: "curried-chicken-wrap",
+      name: "Curried Chicken Wrap",
+      emoji: "🌯",
+      description:
+        "Curried chicken, greens, apple, raisins and yogurt sauce wrapped in whole wheat.",
+      serving: "1 wrap",
+      calories: 510,
+      protein: 27,
+      carbs: 52,
+      fat: 21,
+      fiber: 7,
+      sugar: 6,
+      sodium: 680,
+      satFat: 4,
+      tags: ["high-protein"],
+    },
+    {
+      key: "tomato-soup",
+      name: "Roasted Tomato Soup",
+      emoji: "🍲",
+      description:
+        "Slow-roasted tomatoes, garlic and herbs finished with a little cream and basil oil.",
+      serving: "1 bowl",
+      calories: 240,
+      protein: 8,
+      carbs: 30,
+      fat: 9,
+      fiber: 6,
+      sugar: 9,
+      sodium: 620,
+      satFat: 2,
+      tags: ["vegetarian", "gluten-free"],
+    },
+  ],
+  vegout: [
+    {
+      key: "vegan-mac",
+      name: "Vegan Mac",
+      emoji: "🍝",
+      description:
+        "Creamy cashew macaroni with roasted broccoli and a crispy herb crumb topping.",
+      serving: "1 bowl",
+      calories: 620,
+      protein: 20,
+      carbs: 82,
+      fat: 24,
+      fiber: 9,
+      sugar: 8,
+      sodium: 780,
+      satFat: 9,
+      tags: ["plant-based", "high-fiber"],
+    },
+    {
+      key: "chickpea-melt",
+      name: "Chickpea Melt",
+      emoji: "🥪",
+      description:
+        "Smashed chickpeas, avocado, tomato and melted vegan cheese on grilled sourdough.",
+      serving: "1 sandwich",
+      calories: 540,
+      protein: 22,
+      carbs: 58,
+      fat: 24,
+      fiber: 11,
+      sugar: 7,
+      sodium: 820,
+      satFat: 5,
+      tags: ["plant-based", "high-protein", "high-fiber"],
+    },
+    {
+      key: "vegout-caesar",
+      name: "Caesar Salad",
+      emoji: "🥗",
+      description:
+        "Romaine, smoky coconut bacon, sourdough croutons and a creamy vegan Caesar.",
+      serving: "1 bowl",
+      calories: 360,
+      protein: 12,
+      carbs: 28,
+      fat: 24,
+      fiber: 7,
+      sugar: 4,
+      sodium: 520,
+      satFat: 4,
+      tags: ["plant-based", "high-fiber"],
+    },
+  ],
+  organicworks: [
+    {
+      key: "avo-toast",
+      name: "Avocado Toast",
+      emoji: "🥑",
+      description:
+        "Gluten-free toast, smashed avocado, soft egg, chilli and a handful of market greens.",
+      serving: "2 slices",
+      calories: 420,
+      protein: 13,
+      carbs: 38,
+      fat: 25,
+      fiber: 10,
+      sugar: 4,
+      sodium: 390,
+      satFat: 4,
+      tags: ["vegetarian", "high-fiber", "gluten-free"],
+    },
+    {
+      key: "quinoa-salad",
+      name: "Quinoa Salad",
+      emoji: "🥗",
+      description:
+        "Quinoa, roasted peppers, cucumber, herbs, pumpkin seeds and a lemon-tahini dressing.",
+      serving: "1 bowl",
+      calories: 390,
+      protein: 14,
+      carbs: 42,
+      fat: 18,
+      fiber: 9,
+      sugar: 8,
+      sodium: 430,
+      satFat: 2.5,
+      tags: ["vegetarian", "high-fiber", "gluten-free"],
+    },
+    {
+      key: "berry-smoothie",
+      name: "Berry Smoothie",
+      emoji: "🥤",
+      description:
+        "Mixed berries, banana, almond milk, flax and a spoonful of almond butter.",
+      serving: "1 smoothie",
+      calories: 280,
+      protein: 8,
+      carbs: 44,
+      fat: 8,
+      fiber: 6,
+      sugar: 22,
+      sodium: 80,
+      satFat: 1,
+      tags: ["vegetarian", "gluten-free", "light"],
+    },
+  ],
+  pitapit: [
+    {
+      key: "chicken-souvlaki",
+      name: "Chicken Souvlaki Pita",
+      emoji: "🥙",
+      description:
+        "Grilled chicken, tzatziki, tomato, cucumber, onion and lettuce in a warm pita.",
+      serving: "1 pita",
+      calories: 540,
+      protein: 34,
+      carbs: 56,
+      fat: 19,
+      fiber: 6,
+      sugar: 7,
+      sodium: 880,
+      satFat: 4,
+      tags: ["high-protein"],
+    },
+    {
+      key: "falafel-pita",
+      name: "Falafel Pita",
+      emoji: "🥙",
+      description:
+        "Crispy falafel, hummus, pickled turnip, tomato, cucumber and tahini sauce.",
+      serving: "1 pita",
+      calories: 500,
+      protein: 18,
+      carbs: 62,
+      fat: 20,
+      fiber: 10,
+      sugar: 8,
+      sodium: 760,
+      satFat: 3,
+      tags: ["vegetarian", "high-fiber"],
+    },
+    {
+      key: "greek-salad",
+      name: "Greek Salad",
+      emoji: "🥗",
+      description:
+        "Cucumber, tomato, olives, red onion, feta and oregano with olive oil and lemon.",
+      serving: "1 bowl",
+      calories: 320,
+      protein: 9,
+      carbs: 22,
+      fat: 22,
+      fiber: 5,
+      sugar: 6,
+      sodium: 620,
+      satFat: 6,
+      tags: ["vegetarian", "gluten-free"],
+    },
+  ],
 };
 
 const places = [
@@ -1579,6 +1897,134 @@ const places = [
     blurb:
       "Custom bowls, wraps and salads for a quick, veggie-heavy lunch.",
   },
+  {
+    id: "plant-matter-wortley",
+    name: "Plant Matter Kitchen",
+    area: "Wortley Village",
+    city: "London",
+    cuisine: "Plant-based",
+    emoji: "🥬",
+    rating: 4.7,
+    price: 2,
+    diet: ["plant", "veg", "gf", "df"],
+    menu: "plantmatter",
+    lat: 42.9721,
+    lng: -81.2522,
+    blurb:
+      "Whole-food, plant-based plates and packed bowls in the heart of Wortley Village.",
+  },
+  {
+    id: "root-cellar-downtown",
+    name: "The Root Cellar",
+    area: "Downtown",
+    city: "London",
+    cuisine: "Bowls & salads",
+    emoji: "🥕",
+    rating: 4.6,
+    price: 2,
+    diet: ["veg", "gf", "df"],
+    menu: "rootcellar",
+    lat: 42.9847,
+    lng: -81.2514,
+    blurb:
+      "An organic market and cafe where the salad bar, soups and fresh bowls do the heavy lifting.",
+  },
+  {
+    id: "bag-lady-richmond-row",
+    name: "The Bag Lady Variety",
+    area: "Richmond Row",
+    city: "London",
+    cuisine: "Bowls & salads",
+    emoji: "🥗",
+    rating: 4.6,
+    price: 2,
+    diet: ["veg", "gf", "df"],
+    menu: "baglady",
+    lat: 42.9938,
+    lng: -81.2509,
+    blurb:
+      "A long-running lunch counter for big salads, soups and scratch-made wraps.",
+  },
+  {
+    id: "veg-out-downtown",
+    name: "Veg Out",
+    area: "Downtown",
+    city: "London",
+    cuisine: "Plant-based",
+    emoji: "🍝",
+    rating: 4.4,
+    price: 2,
+    diet: ["plant", "veg", "df"],
+    menu: "vegout",
+    lat: 42.9857,
+    lng: -81.2474,
+    blurb:
+      "Plant-based comfort food for the days when a salad is not the answer.",
+  },
+  {
+    id: "organic-works-downtown",
+    name: "Organic Works",
+    area: "Downtown",
+    city: "London",
+    cuisine: "Bowls & salads",
+    emoji: "🥣",
+    rating: 4.4,
+    price: 2,
+    diet: ["veg", "gf", "df"],
+    menu: "organicworks",
+    lat: 42.9912,
+    lng: -81.2521,
+    blurb:
+      "A gluten-free-friendly cafe and bakery with bowls, toasts and fruit-forward smoothies.",
+  },
+  {
+    id: "chopped-masonville",
+    name: "The Chopped Leaf",
+    area: "Masonville",
+    city: "London",
+    cuisine: "Bowls & salads",
+    emoji: "🥗",
+    rating: 4.2,
+    price: 2,
+    diet: ["veg", "gf", "df"],
+    menu: "chopped",
+    lat: 43.0253,
+    lng: -81.2782,
+    blurb:
+      "Build-your-own bowls and wraps with plenty of greens, crunch and bold dressings.",
+  },
+  {
+    id: "freshii-london-downtown",
+    name: "Freshii",
+    area: "Downtown",
+    city: "London",
+    cuisine: "Bowls & salads",
+    emoji: "🥣",
+    rating: 4.1,
+    price: 1,
+    diet: ["veg", "gf", "df"],
+    menu: "freshii",
+    lat: 42.984,
+    lng: -81.247,
+    blurb:
+      "Custom bowls, wraps and salads for a quick, veggie-heavy lunch.",
+  },
+  {
+    id: "pita-pit-richmond-row",
+    name: "Pita Pit",
+    area: "Richmond Row",
+    city: "London",
+    cuisine: "Middle Eastern",
+    emoji: "🥙",
+    rating: 4.2,
+    price: 1,
+    diet: ["veg", "gf", "df"],
+    menu: "pitapit",
+    lat: 42.9948,
+    lng: -81.2523,
+    blurb:
+      "Build-your-own pitas with grilled protein and a serious pile of vegetables.",
+  },
 ];
 
 export const dietLabels = {
@@ -1611,7 +2057,7 @@ export const dishTagLabels = {
   light: "Light",
 };
 
-const cityOrder = [
+const gtaCityOrder = [
   "Toronto",
   "Mississauga",
   "Brampton",
@@ -1625,11 +2071,35 @@ const cityOrder = [
   "Burlington",
 ];
 
-export const cities = cityOrder.filter((city) =>
+const gtaCities = gtaCityOrder.filter((city) =>
   places.some((place) => place.city === city),
 );
 
+export const regions = {
+  gta: {
+    key: "gta",
+    label: "Greater Toronto Area",
+    shortLabel: "GTA",
+    cities: gtaCities,
+    searchPlaceholder: "Try “shawarma”, “Kensington” or “high protein”",
+  },
+  london: {
+    key: "london",
+    label: "London, Ontario",
+    shortLabel: "London",
+    cities: ["London"],
+    searchPlaceholder: "Try “Wortley”, “plant-based” or “high protein”",
+  },
+};
+
+export const cities = [...gtaCities, "London"];
+
 export const cuisines = [...new Set(places.map((place) => place.cuisine))].sort();
+
+export const cuisinesByRegion = {
+  gta: [...new Set(places.filter((place) => place.city !== "London").map((place) => place.cuisine))].sort(),
+  london: [...new Set(places.filter((place) => place.city === "London").map((place) => place.cuisine))].sort(),
+};
 
 const scoredDishes = Object.entries(menus).flatMap(([menu, items]) =>
   items.map((dish) => {
@@ -1645,11 +2115,13 @@ const scoredDishes = Object.entries(menus).flatMap(([menu, items]) =>
 );
 
 export const restaurants = places.map((place) => {
+  const region = place.city === "London" ? "london" : "gta";
   const menuDishes = scoredDishes
     .filter((dish) => dish.menu === place.menu)
     .sort((a, b) => b.score - a.score);
   return {
     ...place,
+    region,
     dishes: menuDishes,
     bestScore: menuDishes[0]?.score ?? 0,
     avgScore: Math.round(
@@ -1668,6 +2140,7 @@ export const dishes = scoredDishes.map((dish) => ({
       name: place.name,
       area: place.area,
       city: place.city,
+      region: place.region,
       emoji: place.emoji,
       lat: place.lat,
       lng: place.lng,
@@ -1686,6 +2159,29 @@ export function getPlaceDishes(place) {
     .map((dish) => dishById.get(dish.id))
     .filter(Boolean);
 }
+
+export const regionStats = Object.fromEntries(
+  Object.keys(regions).map((key) => {
+    const regionPlaces = restaurants.filter((place) => place.region === key);
+    const dishIds = new Set(regionPlaces.flatMap((place) => place.dishes.map((dish) => dish.id)));
+    const scores = [...dishIds]
+      .map((dishId) => dishById.get(dishId)?.score)
+      .filter((score) => Number.isFinite(score));
+
+    return [
+      key,
+      {
+        places: regionPlaces.length,
+        dishes: dishIds.size,
+        cities: new Set(regionPlaces.map((place) => place.city)).size,
+        areas: new Set(regionPlaces.map((place) => place.area)).size,
+        avgScore: scores.length
+          ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length)
+          : 0,
+      },
+    ];
+  }),
+);
 
 export const stats = {
   places: restaurants.length,
