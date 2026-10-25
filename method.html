@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en-CA" data-theme-pref="system">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>How Forkful scores healthy food — the formula</title>
+    <meta
+      name="description"
+      content="The exact 100-point formula behind Forkful's health scores: protein and fibre density, sodium, sugar, saturated fat, adjustments, worked examples and a live calculator."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f6f2e8" id="theme-color-meta" />
+    <meta name="author" content="Jorge Quijano" />
+    <meta property="og:title" content="How Forkful scores healthy food — the formula" />
+    <meta
+      property="og:description"
+      content="Protein, fibre, sodium, sugar, saturated fat, penalties and worked examples. See the whole 100-point formula and score your own dish."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:locale" content="en_CA" />
+    <meta property="og:site_name" content="Forkful" />
+    <meta property="og:url" content="https://jorgequijano.github.io/food-finder/method.html" />
+    <meta property="og:image" content="https://jorgequijano.github.io/food-finder/assets/scoring-preview.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Forkful's scoring formula page, showing a worked 84-point example." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How Forkful scores healthy food — the formula" />
+    <meta
+      name="twitter:description"
+      content="See the whole 100-point formula, worked dish examples, and calculate a score live."
+    />
+    <meta name="twitter:image" content="https://jorgequijano.github.io/food-finder/assets/scoring-preview.png" />
+    <link rel="canonical" href="https://jorgequijano.github.io/food-finder/method.html" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/method.css" />
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("forkful.theme");
+          var pref = ["system", "light", "dark"].includes(stored) ? stored : "system";
+          var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var theme = pref === "system" ? (dark ? "dark" : "light") : pref;
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.dataset.themePref = pref;
+          document.documentElement.style.colorScheme = theme;
+          var meta = document.getElementById("theme-color-meta");
+          if (meta) meta.setAttribute("content", theme === "dark" ? "#0d1410" : "#f6f2e8");
+        } catch (error) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body class="method-page">
+    <a class="skip-link" href="#formula">Skip to the formula</a>
+
+    <svg class="svg-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-logo" viewBox="0 0 40 40">
+        <rect width="40" height="40" rx="12" fill="currentColor" />
+        <path d="M9.5 21.5h21c0 7-4.7 11.5-10.5 11.5S9.5 28.5 9.5 21.5Z" fill="#f7f4ec" />
+        <path d="M19.8 16.2c.3-4.3 3.5-7.2 7.7-7.4.1 4.3-3.1 7.4-7.7 7.4Z" fill="#a9d6b8" />
+        <path d="M19.8 16.2c-.2 2.6 1.3 4.8 3.8 5.7" fill="none" stroke="#f7f4ec" stroke-width="1.7" stroke-linecap="round" />
+        <path d="M13 29.5h14" stroke="#1b3124" stroke-width="1.6" stroke-linecap="round" opacity=".35" />
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+      </symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24">
+        <path d="M20.4 14.8A8.5 8.5 0 0 1 9.2 3.6a8.5 8.5 0 1 0 11.2 11.2Z" />
+      </symbol>
+      <symbol id="i-monitor" viewBox="0 0 24 24">
+        <rect x="3" y="4" width="18" height="13" rx="2" />
+        <path d="M8 21h8M12 17v4" />
+      </symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24">
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24">
+        <path d="M19 12H5M11 6l-6 6 6 6" />
+      </symbol>
+      <symbol id="i-arrow-up-right" viewBox="0 0 24 24">
+        <path d="M7 17 17 7M8 7h9v9" />
+      </symbol>
+      <symbol id="i-leaf" viewBox="0 0 24 24">
+        <path d="M20 4C12 4 5 8.1 5 15c0 3 2 5 5 5 7 0 10-8 10-16Z" />
+        <path d="M4.5 20.5C7 14.5 11.5 10.8 17 8.5" />
+      </symbol>
+      <symbol id="i-scale" viewBox="0 0 24 24">
+        <path d="M12 4v16M6 8h12M4 8l-2 6h4L4 8ZM20 8l-2 6h4l-2-6Z" />
+      </symbol>
+      <symbol id="i-info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 11v5.5M12 7.8h.01" />
+      </symbol>
+      <symbol id="i-sparkles" viewBox="0 0 24 24">
+        <path d="m12 3 1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3Z" />
+        <path d="m19 14 .9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9L19 14Z" />
+        <path d="m5 14.5.6 1.4 1.4.6-1.4.6L5 18.5l-.6-1.4-1.4-.6 1.4-.6.6-1.4Z" />
+      </symbol>
+    </svg>
+
+    <header class="site-header" id="top">
+      <div class="container header-inner">
+        <a class="brand" href="index.html" aria-label="Forkful guide home">
+          <svg class="brand-mark" aria-hidden="true"><use href="#i-logo"></use></svg>
+          <span class="brand-name">Forkful<span class="brand-dot">.</span></span>
+          <span class="brand-tag">Formula</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary">
+          <a href="index.html#explore">Explore</a>
+          <a href="index.html#method">How it works</a>
+          <a href="method.html" aria-current="page">Scoring</a>
+        </nav>
+
+        <div class="header-actions">
+          <a class="guide-button" href="index.html" aria-label="Back to the food guide">
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-left"></use></svg>
+            <span>Guide</span>
+          </a>
+          <button
+            class="theme-button"
+            id="theme-toggle"
+            type="button"
+            aria-label="Theme: System, follows your device"
+            title="Theme: System"
+          >
+            <span class="theme-icon" aria-hidden="true">
+              <svg class="icon"><use href="#i-monitor"></use></svg>
+            </span>
+            <span class="theme-label">System</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="formula-hero" id="formula" tabindex="-1" aria-labelledby="formula-title">
+        <div class="formula-wash" aria-hidden="true"></div>
+        <div class="container formula-hero-inner">
+          <div class="formula-hero-copy">
+            <p class="eyebrow">
+              <span class="pulse-dot" aria-hidden="true"></span>
+              The formula
+            </p>
+            <h1 id="formula-title">Why does a dish score <em>84?</em></h1>
+            <p class="formula-lede">
+              Forkful’s health score is not a vibe. It is a repeatable formula that compares nutrient
+              density per 100 kcal, then applies a few practical adjustments. Here is the whole
+              recipe.
+            </p>
+            <div class="formula-hero-actions">
+              <a class="btn btn-primary" href="#calculator">
+                <svg class="icon" aria-hidden="true"><use href="#i-scale"></use></svg>
+                Score your own dish
+              </a>
+              <a class="btn btn-ghost" href="#equation">
+                See the full equation
+                <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+              </a>
+            </div>
+            <p class="formula-fineprint">Transparent by design · per listed serving · not medical advice</p>
+          </div>
+
+          <div class="formula-sample" aria-labelledby="sample-title">
+            <div class="formula-sample-head">
+              <span class="pill">A real example</span>
+              <span class="formula-sample-flag">1 bowl</span>
+            </div>
+            <div class="formula-sample-main">
+              <div class="score-ring is-large excellent" role="img" aria-label="Example score 84 out of 100">
+                <svg viewBox="0 0 44 44" aria-hidden="true">
+                  <circle class="ring-bg" cx="22" cy="22" r="18"></circle>
+                  <circle class="ring-value" cx="22" cy="22" r="18" pathLength="100" stroke-dasharray="100" stroke-dashoffset="16"></circle>
+                </svg>
+                <span class="score-number">84</span>
+              </div>
+              <div class="formula-sample-copy">
+                <p class="overline">The Root Cellar · London</p>
+                <h2 id="sample-title">Turmeric Lentil Soup</h2>
+                <p>15 g protein · 11 g fibre · 460 mg sodium</p>
+              </div>
+            </div>
+            <div class="formula-sample-breakdown" role="group" aria-label="Example score breakdown">
+              <div><span>Base</span><strong>10</strong></div>
+              <div><span>Protein</span><strong>14.2</strong></div>
+              <div><span>Fibre</span><strong>22</strong></div>
+              <div><span>Sodium</span><strong>16.1</strong></div>
+              <div><span>Sugar</span><strong>11.7</strong></div>
+              <div><span>Sat fat</span><strong>10</strong></div>
+            </div>
+            <p class="formula-sample-total"><span>Raw total</span><strong>84.0 → 84</strong></p>
+          </div>
+        </div>
+      </section>
+
+      <nav class="method-jump" aria-label="On this page">
+        <div class="container method-jump-inner">
+          <span class="method-jump-label">On this page</span>
+          <a href="#equation">The equation</a>
+          <a href="#components">Component points</a>
+          <a href="#worked-examples">Worked examples</a>
+          <a href="#calculator">Calculator</a>
+          <a href="#limits">Limits</a>
+        </div>
+      </nav>
+
+      <section class="section method-section" id="equation" aria-labelledby="equation-title">
+        <div class="container">
+          <div class="method-section-head">
+            <div>
+              <p class="eyebrow">01 · The equation</p>
+              <h2 id="equation-title">One formula. <em>Every dish.</em></h2>
+            </div>
+            <p class="method-section-lede">
+              Calories set the denominator. Protein, fibre, sodium, sugar and saturated fat do the
+              scoring. The result is rounded and capped at 0–100.
+            </p>
+          </div>
+
+          <div class="formula-layout">
+            <div class="formula-board">
+              <div class="formula-board-head">
+                <span class="overline">The full score</span>
+                <span class="formula-board-note">all amounts are per serving</span>
+              </div>
+              <pre class="formula-code" tabindex="0" aria-label="Forkful health score formula"><code>nutrient_per_100 = amount ÷ calories × 100
+
+raw_score =
+    10                                           <span class="formula-comment"># base</span>
+  + 22 × min(<span class="t-protein">protein_per_100</span> / 8, 1)
+  + 22 × min(<span class="t-fibre">fibre_per_100</span> / 3, 1)
+  + 20 × (1 − clamp((<span class="t-sodium">sodium_per_100</span> − 100) / 300, 0, 1))
+  + 16 × (1 − clamp((<span class="t-sugar">sugar_per_100</span> − 1) / 4, 0, 1))
+  + 10 × (1 − clamp((<span class="t-satfat">sat_fat_per_100</span> − 1.5) / 4.5, 0, 1))
+  − fried_penalty
+  − sugar_penalty
+  − large_serving_penalty
+
+score = round(clamp(raw_score, 0, 100))</code></pre>
+              <p class="formula-board-foot">
+                A high protein-density or fibre-density dish earns more. A high sodium, sugar or
+                saturated-fat density gives those points back.
+              </p>
+            </div>
+
+            <div class="formula-aside" aria-labelledby="formula-aside-title">
+              <p class="overline">Why this shape?</p>
+              <h3 id="formula-aside-title">Density, not portion size.</h3>
+              <p>
+                A 250 kcal snack and a 700 kcal bowl should not be compared by grams alone. Dividing
+                by energy lets them compete on the same terms.
+              </p>
+              <ul class="formula-aside-list">
+                <li><strong>Protein and fibre</strong> are the two biggest earners.</li>
+                <li><strong>Sodium, sugar and saturated fat</strong> pull the score down as their density rises.</li>
+                <li><strong>Penalties</strong> apply after the nutrient math, so fried or very sweet dishes cannot hide behind good macros.</li>
+              </ul>
+              <p class="formula-aside-note">The score is a comparison tool, not a grade on a person.</p>
+              <a class="text-button" href="#calculator">
+                Try it with your own numbers
+                <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section method-section components-section" id="components" aria-labelledby="components-title">
+        <div class="container">
+          <div class="method-section-head">
+            <div>
+              <p class="eyebrow">02 · Component points</p>
+              <h2 id="components-title">Where the points come from.</h2>
+            </div>
+            <p class="method-section-lede">
+              Each nutrient has a full-points threshold and a zero-points threshold. Values between
+              them earn a proportional share.
+            </p>
+          </div>
+
+          <div class="component-grid">
+            <article class="component-card component-protein">
+              <div class="component-head">
+                <span><i class="component-dot"></i>Protein density</span>
+                <strong>22 pts</strong>
+              </div>
+              <h3>Protein builds the score.</h3>
+              <code>min(protein_per_100 / 8, 1) × 22</code>
+              <p>Full points at 8 g of protein per 100 kcal. Zero at 0 g.</p>
+              <dl class="component-thresholds">
+                <div><dt>Full points</dt><dd>≥ 8 g / 100 kcal</dd></div>
+                <div><dt>No points</dt><dd>0 g / 100 kcal</dd></div>
+              </dl>
+            </article>
+
+            <article class="component-card component-fibre">
+              <div class="component-head">
+                <span><i class="component-dot"></i>Fibre density</span>
+                <strong>22 pts</strong>
+              </div>
+              <h3>Fibre is the other big earner.</h3>
+              <code>min(fibre_per_100 / 3, 1) × 22</code>
+              <p>Full points at 3 g of fibre per 100 kcal. Zero at 0 g.</p>
+              <dl class="component-thresholds">
+                <div><dt>Full points</dt><dd>≥ 3 g / 100 kcal</dd></div>
+                <div><dt>No points</dt><dd>0 g / 100 kcal</dd></div>
+              </dl>
+            </article>
+
+            <article class="component-card component-sodium">
+              <div class="component-head">
+                <span><i class="component-dot"></i>Lower sodium</span>
+                <strong>20 pts</strong>
+              </div>
+              <h3>Salt has a budget.</h3>
+              <code>(1 − clamp((sodium_per_100 − 100) / 300, 0, 1)) × 20</code>
+              <p>Full points at 100 mg or less per 100 kcal. Zero at 400 mg or more.</p>
+              <dl class="component-thresholds">
+                <div><dt>Full points</dt><dd>≤ 100 mg / 100 kcal</dd></div>
+                <div><dt>No points</dt><dd>≥ 400 mg / 100 kcal</dd></div>
+              </dl>
+            </article>
+
+            <article class="component-card component-sugar">
+              <div class="component-head">
+                <span><i class="component-dot"></i>Lower sugar</span>
+                <strong>16 pts</strong>
+              </div>
+              <h3>Sugar loses points quickly.</h3>
+              <code>(1 − clamp((sugar_per_100 − 1) / 4, 0, 1)) × 16</code>
+              <p>Full points at 1 g or less per 100 kcal. Zero at 5 g or more.</p>
+              <dl class="component-thresholds">
+                <div><dt>Full points</dt><dd>≤ 1 g / 100 kcal</dd></div>
+                <div><dt>No points</dt><dd>≥ 5 g / 100 kcal</dd></div>
+              </dl>
+            </article>
+
+            <article class="component-card component-satfat">
+              <div class="component-head">
+                <span><i class="component-dot"></i>Lower saturated fat</span>
+                <strong>10 pts</strong>
+              </div>
+              <h3>A smaller but useful signal.</h3>
+              <code>(1 − clamp((sat_fat_per_100 − 1.5) / 4.5, 0, 1)) × 10</code>
+              <p>Full points at 1.5 g or less per 100 kcal. Zero at 6 g or more.</p>
+              <dl class="component-thresholds">
+                <div><dt>Full points</dt><dd>≤ 1.5 g / 100 kcal</dd></div>
+                <div><dt>No points</dt><dd>≥ 6 g / 100 kcal</dd></div>
+              </dl>
+            </article>
+
+            <article class="component-card component-base">
+              <div class="component-head">
+                <span><i class="component-dot"></i>Base score</span>
+                <strong>10 pts</strong>
+              </div>
+              <h3>Everyone starts here.</h3>
+              <code>10</code>
+              <p>A dish begins with 10 points before density and adjustments are applied.</p>
+              <dl class="component-thresholds">
+                <div><dt>All dishes</dt><dd>+10</dd></div>
+              </dl>
+            </article>
+          </div>
+
+          <div class="penalty-panel">
+            <div class="penalty-panel-head">
+              <p class="overline">03 · The adjustments</p>
+              <h3>Then a few points come off.</h3>
+              <p>These adjustments stop a good macro split from covering for a fried, very sweet or oversized serving.</p>
+            </div>
+            <div class="penalty-list">
+              <div class="penalty-item">
+                <strong>−8</strong>
+                <div>
+                  <h4>Fried or crispy</h4>
+                  <p>Any dish tagged <code>fried</code> loses 8 points.</p>
+                </div>
+              </div>
+              <div class="penalty-item">
+                <strong>−0.6<span>/g</span></strong>
+                <div>
+                  <h4>Very sweet</h4>
+                  <p>Above 20 g of sugar, the score loses 0.6 points per extra gram, capped at −8.</p>
+                </div>
+              </div>
+              <div class="penalty-item">
+                <strong>−3</strong>
+                <div>
+                  <h4>Large single serving</h4>
+                  <p>Dishes over 700 kcal lose 3 points. It is harder to fit them into a balanced day.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section method-section examples-section" id="worked-examples" aria-labelledby="examples-title">
+        <div class="container">
+          <div class="method-section-head">
+            <div>
+              <p class="eyebrow">04 · Worked examples</p>
+              <h2 id="examples-title">The formula in the wild.</h2>
+            </div>
+            <p class="method-section-lede">
+              Four calculations from the guide. See where a dish earns its points, and notice which
+              adjustments kick in.
+            </p>
+          </div>
+          <div class="worked-grid" id="worked-grid" aria-live="polite"></div>
+          <p class="method-fineprint">
+            Nutrition values are estimated per serving. Scores are rounded after the raw total is
+            calculated.
+          </p>
+        </div>
+      </section>
+
+      <section class="section method-section calculator-section" id="calculator" aria-labelledby="calculator-title">
+        <div class="container">
+          <div class="method-section-head">
+            <div>
+              <p class="eyebrow">05 · Live calculator</p>
+              <h2 id="calculator-title">Score <em>your own</em> dish.</h2>
+            </div>
+            <p class="method-section-lede">
+              Enter the nutrition for one serving. The score updates as you type, using the same
+              function as every card in the guide.
+            </p>
+          </div>
+
+          <div class="calc-layout">
+            <div class="calc-panel">
+              <div class="calc-panel-head">
+                <h3>Dish inputs</h3>
+                <button class="text-button" id="calc-reset" type="button">Reset to soup example</button>
+              </div>
+              <div class="calc-fields">
+                <label class="calc-field">
+                  <span>Calories <small>kcal</small></span>
+                  <input id="calc-calories" type="number" inputmode="decimal" min="1" max="3000" step="1" value="290" />
+                </label>
+                <label class="calc-field">
+                  <span>Protein <small>g</small></span>
+                  <input id="calc-protein" type="number" inputmode="decimal" min="0" max="200" step="0.1" value="15" />
+                </label>
+                <label class="calc-field">
+                  <span>Fibre <small>g</small></span>
+                  <input id="calc-fiber" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="11" />
+                </label>
+                <label class="calc-field">
+                  <span>Sodium <small>mg</small></span>
+                  <input id="calc-sodium" type="number" inputmode="decimal" min="0" max="6000" step="1" value="460" />
+                </label>
+                <label class="calc-field">
+                  <span>Sugar <small>g</small></span>
+                  <input id="calc-sugar" type="number" inputmode="decimal" min="0" max="200" step="0.1" value="6" />
+                </label>
+                <label class="calc-field">
+                  <span>Saturated fat <small>g</small></span>
+                  <input id="calc-satfat" type="number" inputmode="decimal" min="0" max="100" step="0.1" value="1.5" />
+                </label>
+              </div>
+              <label class="switch-row calc-switch">
+                <span class="switch-copy">
+                  <strong>Fried or crispy</strong>
+                  <small>Applies the −8 adjustment</small>
+                </span>
+                <input id="calc-fried" type="checkbox" />
+                <span class="switch" aria-hidden="true"></span>
+              </label>
+              <p class="calc-note">Use the per-serving numbers from a menu or label. Empty fields count as zero; calories use a minimum of 1.</p>
+            </div>
+
+            <div class="calc-result" aria-labelledby="calc-result-title">
+              <div class="calc-result-head">
+                <div class="calc-result-score">
+                  <div class="score-ring is-large excellent" id="calc-ring" role="img" aria-label="Calculated score">
+                    <svg viewBox="0 0 44 44" aria-hidden="true">
+                      <circle class="ring-bg" cx="22" cy="22" r="18"></circle>
+                      <circle class="ring-value" id="calc-ring-value" cx="22" cy="22" r="18" pathLength="100" stroke-dasharray="100" stroke-dashoffset="16"></circle>
+                    </svg>
+                    <span class="score-number" id="calc-score">84</span>
+                  </div>
+                  <div>
+                    <p class="overline">Forkful score</p>
+                    <h3 id="calc-result-title"><span id="calc-score-number">84</span><span class="calc-out-of">/100</span></h3>
+                    <span class="band-pill band-excellent" id="calc-band">Excellent</span>
+                  </div>
+                </div>
+                <span class="calc-raw" id="calc-raw">raw 84.0</span>
+              </div>
+              <div class="calc-breakdown" id="calc-breakdown"></div>
+              <p class="calc-result-note" id="calc-note">
+                The raw total is rounded and capped between 0 and 100.
+              </p>
+              <p class="sr-only" id="calc-status" aria-live="polite"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section method-section limits-section" id="limits" aria-labelledby="limits-title">
+        <div class="container">
+          <div class="limits-grid">
+            <div>
+              <p class="eyebrow">06 · The bands</p>
+              <h2 id="limits-title">What the number means.</h2>
+              <div class="band-stack">
+                <div class="band-row">
+                  <span class="band-pill band-excellent">80–100 · Excellent</span>
+                  <p>A strong everyday pick with good protein/fibre density and moderate friction.</p>
+                </div>
+                <div class="band-row">
+                  <span class="band-pill band-strong">70–79 · Strong</span>
+                  <p>Solid nutrition with one or two trade-offs worth noticing.</p>
+                </div>
+                <div class="band-row">
+                  <span class="band-pill band-balanced">60–69 · Balanced</span>
+                  <p>Fine in context. Pair it with something that fills the gaps.</p>
+                </div>
+                <div class="band-row">
+                  <span class="band-pill band-treat">Under 60 · Treat</span>
+                  <p>More of a sometimes food in this comparison. Not a moral judgment.</p>
+                </div>
+              </div>
+            </div>
+            <div class="limits-card">
+              <p class="overline">Important caveats</p>
+              <h3>What this score is not.</h3>
+              <ul>
+                <li><strong>Not medical advice.</strong> Your needs depend on health, medications, activity and more.</li>
+                <li><strong>Not an allergen check.</strong> Always confirm ingredients and cross-contact with the restaurant.</li>
+                <li><strong>Not a complete diet score.</strong> Vitamins, minerals, omega-3s and food processing are not fully captured.</li>
+                <li><strong>Not lab-tested.</strong> Menus and portions change; the nutrition figures are estimates.</li>
+              </ul>
+              <a class="text-button" href="index.html#method">
+                How the guide works
+                <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing section" aria-labelledby="formula-cta-title">
+        <div class="container closing-inner">
+          <div>
+            <p class="eyebrow">The formula is the easy part</p>
+            <h2 id="formula-cta-title">Now find something <em>worth eating.</em></h2>
+          </div>
+          <div class="closing-actions">
+            <a class="btn btn-primary" href="index.html">
+              Explore the GTA
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </a>
+            <a class="btn btn-ghost" href="index.html?region=london">
+              Explore London
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <a class="brand" href="index.html" aria-label="Forkful guide home">
+            <svg class="brand-mark" aria-hidden="true"><use href="#i-logo"></use></svg>
+            <span class="brand-name">Forkful<span class="brand-dot">.</span></span>
+          </a>
+          <p>The numbers behind the guide, out in the open. GTA + London, Ontario.</p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="index.html#explore">Explore</a>
+          <a href="index.html#method">How it works</a>
+          <a href="method.html" aria-current="page">Scoring method</a>
+          <a href="https://github.com/JorgeQuijano/food-finder" target="_blank" rel="noreferrer">
+            GitHub
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-up-right"></use></svg>
+          </a>
+        </nav>
+        <p class="footer-fineprint">
+          Independent project. Nutrition figures and restaurant menus are illustrative estimates,
+          not official data. This is not medical advice. Confirm ingredients and allergens with the
+          restaurant.
+        </p>
+        <div class="footer-bottom">
+          <span>Made for the GTA + London · <span id="footer-year">2026</span></span>
+          <span class="footer-theme">Follows your system theme by default.</span>
+        </div>
+      </div>
+    </footer>
+
+    <div class="sr-only" id="theme-status" role="status" aria-live="polite"></div>
+    <script type="module" src="js/method.js"></script>
+  </body>
+</html>

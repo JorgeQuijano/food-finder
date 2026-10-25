@@ -1,0 +1,1413 @@
+/* ==========================================================================
+   Forkful — scoring method page
+   ========================================================================== */
+
+.method-page {
+  background: var(--bg);
+}
+
+.method-page .site-header {
+  position: sticky;
+}
+
+.method-page .site-nav a[aria-current="page"] {
+  color: var(--ink);
+}
+
+.method-page .site-nav a[aria-current="page"]::after {
+  right: 0;
+}
+
+.method-page .footer-nav a[aria-current="page"] {
+  color: var(--ink);
+}
+
+.guide-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  height: 38px;
+  padding: 0 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
+  color: var(--ink-soft);
+  font-size: 0.74rem;
+  font-weight: 650;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.guide-button:hover {
+  border-color: var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.guide-button .icon {
+  width: 15px;
+  height: 15px;
+}
+
+/* Hero */
+
+.formula-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(2.7rem, 6vw, 5rem) clamp(2.8rem, 6vw, 5.4rem);
+}
+
+.formula-wash {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(
+      50% 65% at 88% 10%,
+      color-mix(in srgb, var(--accent) 20%, transparent),
+      transparent 72%
+    ),
+    radial-gradient(
+      48% 64% at 58% 58%,
+      color-mix(in srgb, var(--brand) 11%, transparent),
+      transparent 74%
+    );
+}
+
+.formula-hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -15%;
+  right: -12%;
+  width: 58vw;
+  height: 58vw;
+  max-width: 820px;
+  max-height: 820px;
+  border-radius: 50%;
+  background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
+  background-size: 18px 18px;
+  opacity: 0.35;
+  mask-image: radial-gradient(circle, #000 0 38%, transparent 68%);
+  -webkit-mask-image: radial-gradient(circle, #000 0 38%, transparent 68%);
+  pointer-events: none;
+}
+
+.formula-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.82fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.formula-hero h1 {
+  max-width: 12ch;
+  margin-top: 0.2rem;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6.3vw, 5.6rem);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.047em;
+  text-wrap: balance;
+}
+
+.formula-hero h1 em {
+  position: relative;
+  color: var(--brand);
+  font-style: italic;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.formula-hero h1 em::after {
+  content: "";
+  position: absolute;
+  left: 2%;
+  right: 0;
+  bottom: 0.02em;
+  height: 0.09em;
+  border-radius: 999px;
+  background: var(--accent);
+  opacity: 0.55;
+  transform: rotate(-1.4deg);
+}
+
+.formula-lede {
+  max-width: 58ch;
+  margin-top: 1.2rem;
+  color: var(--ink-soft);
+  font-size: clamp(0.98rem, 1.4vw, 1.08rem);
+  line-height: 1.65;
+}
+
+.formula-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.formula-fineprint {
+  margin-top: 1.1rem;
+  color: var(--muted);
+  font-size: 0.67rem;
+  line-height: 1.5;
+}
+
+.formula-sample {
+  position: relative;
+  width: min(100%, 450px);
+  justify-self: end;
+  padding: 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 27px;
+  background:
+    radial-gradient(
+      80% 80% at 100% 0%,
+      color-mix(in srgb, var(--brand) 8%, transparent),
+      transparent 65%
+    ),
+    var(--surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.formula-sample-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+
+.formula-sample-flag {
+  color: var(--muted);
+  font-size: 0.63rem;
+  font-weight: 600;
+}
+
+.formula-sample-main {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 0.9rem;
+}
+
+.formula-sample .score-ring {
+  width: 82px;
+  height: 82px;
+  background: var(--surface-2);
+}
+
+.formula-sample .score-ring .score-number {
+  font-size: 1.35rem;
+}
+
+.formula-sample-copy {
+  min-width: 0;
+}
+
+.formula-sample-copy h2 {
+  margin-top: 0.15rem;
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.formula-sample-copy p:last-child {
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.formula-sample-breakdown {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem;
+  margin-top: 1rem;
+}
+
+.formula-sample-breakdown > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 9px;
+  background: var(--surface-2);
+  font-size: 0.64rem;
+}
+
+.formula-sample-breakdown span {
+  color: var(--muted);
+}
+
+.formula-sample-breakdown strong {
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+}
+
+.formula-sample-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.67rem;
+}
+
+.formula-sample-total strong {
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+/* Jump nav */
+
+.method-jump {
+  border-block: 1px solid var(--line);
+  background: var(--bg-deep);
+}
+
+.method-jump-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 1.1rem;
+  padding-block: 0.75rem;
+}
+
+.method-jump-label {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.method-jump a {
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.method-jump a:hover {
+  color: var(--brand);
+  text-decoration-color: currentColor;
+}
+
+/* Shared section headings */
+
+.method-section {
+  scroll-margin-top: 92px;
+}
+
+.method-section-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+  gap: 1.5rem 3rem;
+  align-items: end;
+  margin-bottom: 2rem;
+}
+
+.method-section-head h2 {
+  max-width: 16ch;
+}
+
+.method-section-lede {
+  max-width: 48ch;
+  justify-self: end;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.method-fineprint {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.67rem;
+  line-height: 1.55;
+}
+
+/* Equation */
+
+.formula-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(270px, 0.65fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.formula-board {
+  padding: clamp(1.1rem, 2.6vw, 1.7rem);
+  overflow: hidden;
+  border-radius: 24px;
+  background:
+    radial-gradient(
+      120% 120% at 100% 0%,
+      color-mix(in srgb, var(--brand) 25%, transparent),
+      transparent 55%
+    ),
+    var(--ink);
+  color: var(--bg);
+  box-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] .formula-board {
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(
+      120% 120% at 100% 0%,
+      color-mix(in srgb, var(--brand) 11%, transparent),
+      transparent 55%
+    ),
+    var(--surface-2);
+  color: var(--ink);
+}
+
+.formula-board-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
+}
+
+.formula-board-head .overline {
+  color: color-mix(in srgb, currentColor 65%, transparent);
+}
+
+.formula-board-note {
+  color: color-mix(in srgb, currentColor 52%, transparent);
+  font-size: 0.61rem;
+}
+
+.formula-code {
+  max-width: 100%;
+  margin: 1rem 0 0;
+  padding: 0;
+  overflow: visible;
+  font-family: ui-monospace, "SFMono-Regular", "Cascadia Code", Menlo, Consolas, monospace;
+  font-size: clamp(0.67rem, 1.12vw, 0.78rem);
+  line-height: 1.85;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  tab-size: 2;
+}
+
+.formula-code code {
+  font: inherit;
+}
+
+.formula-comment {
+  color: color-mix(in srgb, currentColor 42%, transparent);
+}
+
+.t-protein {
+  color: #a8ddb8;
+}
+
+.t-fibre {
+  color: #c9df8b;
+}
+
+.t-sodium {
+  color: #aec5e7;
+}
+
+.t-sugar {
+  color: #e7a9c0;
+}
+
+.t-satfat {
+  color: #e9a58e;
+}
+
+.formula-board-foot {
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  color: color-mix(in srgb, currentColor 68%, transparent);
+  font-size: 0.67rem;
+  line-height: 1.55;
+}
+
+.formula-aside {
+  display: flex;
+  flex-direction: column;
+  padding: 1.3rem;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--surface);
+}
+
+.formula-aside .text-button {
+  margin-top: auto;
+  padding-top: 1rem;
+  font-size: 0.72rem;
+}
+
+.formula-aside h3 {
+  margin-top: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.formula-aside > p:not(.overline) {
+  margin-top: 0.7rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.formula-aside-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 0.9rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+
+.formula-aside-list li {
+  position: relative;
+  padding-left: 0.85rem;
+  color: var(--ink-soft);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.formula-aside-list li::before {
+  content: "";
+  position: absolute;
+  top: 0.52em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+
+.formula-aside-note {
+  color: var(--muted) !important;
+  font-size: 0.66rem !important;
+  font-style: italic;
+}
+
+/* Components */
+
+.components-section,
+.calculator-section {
+  border-block: 1px solid var(--line);
+  background: var(--bg-deep);
+}
+
+.component-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.component-card {
+  --component-color: var(--brand);
+  display: flex;
+  flex-direction: column;
+  padding: 1.15rem;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--component-color);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.component-protein {
+  --component-color: var(--protein);
+}
+
+.component-fibre {
+  --component-color: var(--fiber);
+}
+
+.component-sodium {
+  --component-color: var(--sodium);
+}
+
+.component-sugar {
+  --component-color: var(--sugar);
+}
+
+.component-satfat {
+  --component-color: var(--fat);
+}
+
+.component-base {
+  --component-color: var(--brand);
+}
+
+.component-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.component-head > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.component-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--component-color);
+}
+
+.component-head strong {
+  color: color-mix(in srgb, var(--component-color) 58%, var(--ink));
+  font-size: 0.72rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.component-card h3 {
+  margin-top: 0.65rem;
+  font-family: var(--font-display);
+  font-size: 1.28rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+}
+
+.component-card > code {
+  display: block;
+  margin-top: 0.7rem;
+  padding: 0.5rem 0.55rem;
+  overflow-wrap: anywhere;
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--ink-soft);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  line-height: 1.45;
+}
+
+.component-card > p {
+  margin-top: 0.65rem;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+
+.component-thresholds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  margin-top: auto;
+  padding-top: 0.8rem;
+}
+
+.component-thresholds > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+}
+
+.component-thresholds dt {
+  color: var(--muted);
+  font-size: 0.58rem;
+  font-weight: 650;
+  text-transform: uppercase;
+}
+
+.component-thresholds dd {
+  color: var(--ink-soft);
+  font-size: 0.68rem;
+  font-weight: 650;
+}
+
+/* Penalties */
+
+.penalty-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  gap: 1.2rem 2rem;
+  align-items: start;
+  margin-top: 1rem;
+  padding: clamp(1.2rem, 2.6vw, 1.6rem);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+}
+
+.penalty-panel-head h3 {
+  margin-top: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.penalty-panel-head > p:last-child {
+  margin-top: 0.55rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.penalty-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.penalty-item {
+  padding: 0.8rem;
+  border-radius: 13px;
+  background: var(--surface-2);
+}
+
+.penalty-item > strong {
+  display: block;
+  color: color-mix(in srgb, var(--fat) 72%, var(--ink));
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.penalty-item > strong span {
+  color: var(--ink-soft);
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.penalty-item h4 {
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.penalty-item p {
+  margin-top: 0.2rem;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.45;
+}
+
+.penalty-item code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.67rem;
+  color: var(--ink-soft);
+}
+
+/* Worked examples */
+
+.worked-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.example-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.example-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.example-emoji {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--surface-2);
+  font-size: 1.35rem;
+}
+
+.example-title {
+  min-width: 0;
+  flex: 1;
+}
+
+.example-place {
+  color: var(--muted);
+  font-size: 0.61rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.example-title h3 {
+  margin-top: 0.1rem;
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+}
+
+.example-head .score-ring {
+  width: 48px;
+  height: 48px;
+  margin-left: auto;
+}
+
+.example-head .score-ring .score-number {
+  font-size: 0.78rem;
+}
+
+.example-nutrition {
+  margin-top: 0.7rem;
+  padding: 0.45rem 0;
+  border-block: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.65rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+}
+
+.example-points {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  margin-top: 0.55rem;
+}
+
+.points-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr) 56px;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.17rem 0;
+  font-size: 0.66rem;
+  line-height: 1.3;
+}
+
+.points-label {
+  color: var(--muted);
+}
+
+.points-bar {
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--line);
+}
+
+.points-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--component-color, var(--brand));
+}
+
+.points-row.is-protein {
+  --component-color: var(--protein);
+}
+
+.points-row.is-fibre {
+  --component-color: var(--fiber);
+}
+
+.points-row.is-sodium {
+  --component-color: var(--sodium);
+}
+
+.points-row.is-sugar {
+  --component-color: var(--sugar);
+}
+
+.points-row.is-satfat {
+  --component-color: var(--fat);
+}
+
+.points-row.is-base {
+  --component-color: var(--brand);
+}
+
+.points-value {
+  color: var(--ink-soft);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.points-row.is-penalty {
+  grid-template-columns: 74px minmax(0, 1fr) 56px;
+}
+
+.points-row.is-penalty .points-bar {
+  height: 0;
+  background: transparent;
+}
+
+.points-row.is-penalty .points-value {
+  color: color-mix(in srgb, var(--fat) 62%, var(--ink));
+}
+
+.points-row.is-total {
+  margin-top: 0.25rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--line);
+}
+
+.points-row.is-total .points-bar {
+  visibility: hidden;
+}
+
+.points-row.is-total .points-label {
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.points-row.is-total .points-value {
+  color: var(--ink);
+  font-size: 0.72rem;
+}
+
+.example-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+  margin-top: 0.55rem;
+}
+
+.example-raw {
+  color: var(--muted);
+  font-size: 0.6rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.example-note {
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.61rem;
+  line-height: 1.45;
+}
+
+/* Calculator */
+
+.calc-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.82fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.calc-panel {
+  padding: clamp(1.1rem, 2.5vw, 1.5rem);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+}
+
+.calc-panel-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.calc-panel-head h3 {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.calc-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.calc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.calc-field > span {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.3rem;
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.calc-field small {
+  color: var(--muted);
+  font-size: 0.6rem;
+  font-weight: 500;
+}
+
+.calc-field input {
+  width: 100%;
+  min-height: 42px;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  outline: 0;
+  background: var(--surface-2);
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.calc-field input:focus-visible {
+  border-color: var(--brand);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 14%, transparent);
+}
+
+.calc-switch {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+.calc-note {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.65rem;
+  line-height: 1.5;
+}
+
+.calc-result {
+  position: sticky;
+  top: 92px;
+  padding: clamp(1.1rem, 2.5vw, 1.5rem);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background:
+    radial-gradient(
+      90% 70% at 100% 0%,
+      color-mix(in srgb, var(--brand) 8%, transparent),
+      transparent 70%
+    ),
+    var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+.calc-result-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.calc-result-score {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.calc-result .score-ring {
+  width: 76px;
+  height: 76px;
+  background: var(--surface-2);
+}
+
+.calc-result .score-ring .score-number {
+  font-size: 1.22rem;
+}
+
+.calc-result-score h3 {
+  margin-top: 0.12rem;
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.calc-out-of {
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.calc-band {
+  margin-top: 0.35rem;
+}
+
+.calc-raw {
+  padding-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.61rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.calc-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+  margin-top: 1.1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+
+.calc-result-note {
+  margin-top: 0.8rem;
+  color: var(--muted);
+  font-size: 0.63rem;
+  line-height: 1.5;
+}
+
+/* Limits */
+
+.limits-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.75fr);
+  gap: 1.5rem clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+
+.limits-grid h2 {
+  max-width: 13ch;
+}
+
+.band-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 1.4rem;
+}
+
+.band-row {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: center;
+  padding-block: 0.55rem;
+  border-top: 1px solid var(--line);
+}
+
+.band-row .band-pill {
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.band-row p {
+  color: var(--muted);
+  font-size: 0.73rem;
+  line-height: 1.5;
+}
+
+.limits-card {
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--surface);
+}
+
+.limits-card h3 {
+  margin-top: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.limits-card ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 0.95rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+
+.limits-card li {
+  position: relative;
+  padding-left: 0.85rem;
+  color: var(--ink-soft);
+  font-size: 0.74rem;
+  line-height: 1.55;
+}
+
+.limits-card li::before {
+  content: "";
+  position: absolute;
+  top: 0.52em;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.limits-card .text-button {
+  margin-top: 1rem;
+}
+
+/* Responsive */
+
+@media (max-width: 1180px) {
+  .formula-hero-inner {
+    gap: 2.6rem;
+  }
+
+  .formula-sample {
+    width: 100%;
+  }
+
+  .component-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1020px) {
+  .formula-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+  }
+
+  .formula-hero-copy {
+    max-width: 720px;
+  }
+
+  .formula-sample {
+    justify-self: start;
+    width: min(100%, 470px);
+  }
+
+  .formula-layout,
+  .limits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .formula-aside {
+    max-width: none;
+  }
+
+  .calc-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .calc-result {
+    position: static;
+  }
+}
+
+@media (max-width: 900px) {
+  .method-section-head {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .method-section-lede {
+    justify-self: start;
+  }
+
+  .worked-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .penalty-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .penalty-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .formula-hero {
+    padding-top: 2.2rem;
+  }
+
+  .formula-hero h1 {
+    font-size: clamp(2.8rem, 12.4vw, 4.4rem);
+  }
+
+  .formula-lede {
+    margin-top: 1rem;
+  }
+
+  .formula-sample-main {
+    align-items: flex-start;
+  }
+
+  .formula-sample-breakdown {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .method-jump-inner {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.85rem;
+    scrollbar-width: none;
+  }
+
+  .method-jump-inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .method-jump-label {
+    flex: none;
+  }
+
+  .method-jump a {
+    flex: none;
+  }
+
+  .component-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .penalty-list {
+    grid-template-columns: 1fr;
+  }
+
+  .points-row {
+    grid-template-columns: 68px minmax(0, 1fr) 50px;
+    gap: 0.4rem;
+  }
+
+  .band-row {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+  }
+
+  .calc-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .formula-hero-actions .btn {
+    flex: 1;
+  }
+
+  .formula-sample {
+    padding: 0.9rem;
+  }
+
+  .formula-sample .score-ring {
+    width: 70px;
+    height: 70px;
+  }
+
+  .formula-sample-copy h2 {
+    font-size: 1.25rem;
+  }
+
+  .formula-sample-breakdown {
+    gap: 0.3rem;
+  }
+
+  .formula-sample-breakdown > div {
+    padding: 0.35rem 0.45rem;
+    font-size: 0.6rem;
+  }
+
+  .calc-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .calc-result-score {
+    align-items: flex-start;
+  }
+
+  .calc-result .score-ring {
+    width: 64px;
+    height: 64px;
+  }
+
+  .calc-result-score h3 {
+    font-size: 1.6rem;
+  }
+
+  .calc-raw {
+    display: none;
+  }
+
+  .example-head {
+    gap: 0.5rem;
+  }
+
+  .example-title h3 {
+    font-size: 1.08rem;
+  }
+
+  .example-head .score-ring {
+    width: 42px;
+    height: 42px;
+  }
+
+  .example-head .score-ring .score-number {
+    font-size: 0.7rem;
+  }
+
+  .formula-code {
+    font-size: 0.6rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .formula-sample-main {
+    gap: 0.6rem;
+  }
+
+  .formula-sample .score-ring {
+    width: 60px;
+    height: 60px;
+  }
+
+  .formula-sample .score-ring .score-number {
+    font-size: 1.05rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .formula-hero,
+  .formula-hero * {
+    animation: none !important;
+  }
+}

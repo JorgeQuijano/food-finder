@@ -18,27 +18,54 @@ export const DAILY_VALUES = {
 
 export const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
+export function healthScoreBreakdown(dish) {
+  const calories = Math.max(Number(dish.calories) || 0, 1);
+  const per100 = (amount) => ((Number(amount) || 0) / calories) * 100;
+
+  const densities = {
+    protein: per100(dish.protein),
+    fiber: per100(dish.fiber),
+    sodium: per100(dish.sodium),
+    sugar: per100(dish.sugar),
+    satFat: per100(dish.satFat),
+  };
+
+  const components = {
+    base: 10,
+    protein: Math.min(densities.protein / 8, 1) * 22,
+    fiber: Math.min(densities.fiber / 3, 1) * 22,
+    sodium: (1 - clamp((densities.sodium - 100) / 300, 0, 1)) * 20,
+    sugar: (1 - clamp((densities.sugar - 1) / 4, 0, 1)) * 16,
+    satFat: (1 - clamp((densities.satFat - 1.5) / 4.5, 0, 1)) * 10,
+  };
+
+  const penalties = {
+    // Fried dishes get a small nudge down; the macro math alone can be kind to them.
+    fried: dish.tags?.includes("fried") ? -8 : 0,
+    // Very sweet items are capped a little further even when they contain fruit.
+    sweet: dish.sugar > 20 ? -Math.min((dish.sugar - 20) * 0.6, 8) : 0,
+    // Very large single servings are harder to fit into a balanced day.
+    large: dish.calories > 700 ? -3 : 0,
+  };
+
+  const componentTotal = Object.values(components).reduce((sum, value) => sum + value, 0);
+  const penaltyTotal = Object.values(penalties).reduce((sum, value) => sum + value, 0);
+  const rawScore = componentTotal + penaltyTotal;
+  const total = Math.round(clamp(rawScore, 0, 100));
+
+  return {
+    total,
+    band: scoreBand(total),
+    rawScore,
+    calories,
+    densities,
+    components,
+    penalties,
+  };
+}
+
 export function calcHealthScore(dish) {
-  const calories = Math.max(dish.calories, 1);
-  const per100 = (grams) => (grams / calories) * 100;
-
-  let score = 10;
-  score += Math.min(per100(dish.protein) / 8, 1) * 22;
-  score += Math.min(per100(dish.fiber) / 3, 1) * 22;
-  score += (1 - clamp((per100(dish.sodium) - 100) / 300, 0, 1)) * 20;
-  score += (1 - clamp((per100(dish.sugar) - 1) / 4, 0, 1)) * 16;
-  score += (1 - clamp((per100(dish.satFat) - 1.5) / 4.5, 0, 1)) * 10;
-
-  // Fried dishes get a small nudge down; the macro math alone can be kind to them.
-  if (dish.tags?.includes("fried")) score -= 8;
-
-  // Very sweet items are capped a little further even when they contain fruit.
-  if (dish.sugar > 20) score -= Math.min((dish.sugar - 20) * 0.6, 8);
-
-  // Very large single servings are harder to fit into a balanced day.
-  if (dish.calories > 700) score -= 3;
-
-  return Math.round(clamp(score, 0, 100));
+  return healthScoreBreakdown(dish).total;
 }
 
 export function scoreBand(score) {

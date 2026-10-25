@@ -4463,17 +4463,17 @@ dialog.about-modal {
 
 .band-strong {
   background: color-mix(in srgb, var(--fiber) 14%, var(--surface-2));
-  color: color-mix(in srgb, var(--fiber) 70%, var(--ink));
+  color: color-mix(in srgb, var(--fiber) 52%, var(--ink));
 }
 
 .band-balanced {
   background: var(--accent-soft);
-  color: color-mix(in srgb, var(--accent) 70%, var(--ink));
+  color: color-mix(in srgb, var(--accent) 48%, var(--ink));
 }
 
 .band-treat {
   background: color-mix(in srgb, var(--fat) 13%, var(--surface-2));
-  color: color-mix(in srgb, var(--fat) 82%, var(--ink));
+  color: color-mix(in srgb, var(--fat) 68%, var(--ink));
 }
 
 .callout {
