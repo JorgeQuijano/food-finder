@@ -1239,6 +1239,7 @@ function dishDetailHtml(dish) {
   const primary = locations[0];
   const primaryPlace = primary ? restaurantById.get(primary.id) : null;
   const mapUrl = primary ? mapsUrl(primary) : "#";
+  const appleMapUrl = primary ? appleMapsUrl(primary) : "#";
   const primaryDistance = primary && userLocation ? nearestDistance([primary]) : null;
   const percentages = macroPercentages(dish);
 
@@ -1415,9 +1416,14 @@ function dishDetailHtml(dish) {
               <span>${locations.length} ${plural(locations.length, "spot")}</span>
             </div>
             <div class="location-list">${locationRows}</div>
-            <a class="btn btn-secondary" href="${mapUrl}" target="_blank" rel="noreferrer">
-              ${icon("pin")} Open in Google Maps ${icon("arrow-up-right")}
-            </a>
+            <div class="map-actions">
+              <a class="btn btn-secondary" href="${mapUrl}" target="_blank" rel="noreferrer">
+                ${icon("pin")} Google Maps ${icon("arrow-up-right")}
+              </a>
+              <a class="btn btn-secondary" href="${appleMapUrl}" target="_blank" rel="noreferrer">
+                ${icon("pin")} Apple Maps ${icon("arrow-up-right")}
+              </a>
+            </div>
             <p class="location-note">
               Neighbourhood pin, not the exact door${primaryDistance != null ? ` · ~${formatDistance(primaryDistance)} away` : ""}. Call ahead for today's menu and allergens.
             </p>
@@ -1436,6 +1442,7 @@ function placeDetailHtml(place) {
     ? distanceKm(userLocation.lat, userLocation.lng, place.lat, place.lng)
     : null;
   const mapUrl = mapsUrl(place);
+  const appleMapUrl = appleMapsUrl(place);
 
   const menuRows = menu
     .map(
@@ -1544,9 +1551,14 @@ function placeDetailHtml(place) {
             <p class="location-note">
               ${escapeHTML(place.area)}, ${escapeHTML(place.city)}${distance != null ? ` · ~${formatDistance(distance)} away` : ""}
             </p>
-            <a class="btn btn-secondary" href="${mapUrl}" target="_blank" rel="noreferrer">
-              ${icon("pin")} Open in Google Maps ${icon("arrow-up-right")}
-            </a>
+            <div class="map-actions">
+              <a class="btn btn-secondary" href="${mapUrl}" target="_blank" rel="noreferrer">
+                ${icon("pin")} Google Maps ${icon("arrow-up-right")}
+              </a>
+              <a class="btn btn-secondary" href="${appleMapUrl}" target="_blank" rel="noreferrer">
+                ${icon("pin")} Apple Maps ${icon("arrow-up-right")}
+              </a>
+            </div>
             <p class="location-note">The pin points to the neighbourhood centre, not the exact door. Confirm hours and menu directly with the restaurant.</p>
           </section>
         </aside>
@@ -1561,6 +1573,17 @@ function mapsUrl(location) {
     `${location.name} ${location.area || ""} ${location.city || ""} Ontario`,
   );
   return `https://www.google.com/maps/search/?api=1&query=${query}`;
+}
+
+function appleMapsUrl(location) {
+  const query = encodeURIComponent(
+    `${location.name} ${location.area || ""} ${location.city || ""} Ontario`,
+  );
+  const lat = Number(location.lat);
+  const lng = Number(location.lng);
+  const center =
+    Number.isFinite(lat) && Number.isFinite(lng) ? `&ll=${lat},${lng}&z=15` : "";
+  return `https://maps.apple.com/?q=${query}${center}`;
 }
 
 function openDialog(dialog) {

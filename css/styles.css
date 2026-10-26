@@ -3738,6 +3738,16 @@ dialog.about-modal {
   font-variant-numeric: tabular-nums;
 }
 
+.map-actions {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.map-actions .btn {
+  margin-top: 0;
+}
+
 .location-panel .btn {
   width: 100%;
   min-height: 40px;

@@ -17,6 +17,7 @@
 - **See the math** on the dedicated [scoring page](method.html): the exact equation, component thresholds, four worked dish examples, and a live calculator for any nutrition label.
 - **Build a plate** with the meal builder. It tracks combined calories and macros, compares the total to a 1,600 / 2,000 / 2,500 kcal reference, and offers a couple of practical nudges.
 - **Near me** uses your browser location (only when you ask) to sort by approximate straight-line distance to neighbourhood centres.
+- **Find it in Google or Apple Maps** from every restaurant and dish detail panel. Apple Maps links use the restaurant name plus the approximate neighbourhood pin, so they open cleanly on iPhone, iPad and Mac.
 - **System theme first** — Forkful follows your device’s light/dark setting by default, with a manual System / Light / Dark switch that persists.
 
 The interface is responsive down to 320px, uses native dialogs and a focus-trapped filter drawer, and has been checked against axe-core for WCAG 2.1 A/AA and best-practice rules in both themes, both city modes, and the scoring page.
