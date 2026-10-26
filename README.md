@@ -14,6 +14,7 @@
 - **Filter with intent** by GTA city, cuisine, plant-based / vegetarian / halal / gluten-free / dairy-free options, max calories, minimum protein and an 80+ health score.
 - **Browse places or dishes** — see the best matching dish at each spot, or line individual dishes up by health score, protein, calories, rating or distance.
 - **Read the full breakdown** on every dish: calories, protein, carbs, fat, saturated fat, fibre, sugar and sodium, with a macro split and % daily values based on a 2,000 kcal reference diet.
+- **Get meaningful order tweaks** when they exist. Dish details can suggest up to two practical changes — sauce on the side, half the cheese, grilled protein instead of fried, a side salad instead of fries, or less added sweetness — with projected calorie and nutrient savings. A change is only surfaced when it improves the estimated score by 3+ points, or meaningfully cuts sodium, sugar or saturated fat while still improving the score.
 - **See the math** on the dedicated [scoring page](method.html): the exact equation, component thresholds, four worked dish examples, and a live calculator for any nutrition label.
 - **Build a plate** with the meal builder. It tracks combined calories and macros, compares the total to a 1,600 / 2,000 / 2,500 kcal reference, and offers a couple of practical nudges.
 - **Near me** uses your browser location (only when you ask) to sort by approximate straight-line distance to neighbourhood centres.
@@ -78,6 +79,7 @@ food-finder/
 ├── js/
 │   ├── app.js       # UI, city switch, filtering, dialogs, meal builder, theme
 │   ├── method.js    # formula page, examples, calculator and page theme
+│   ├── swaps.js     # conservative, materiality-gated order suggestions
 │   ├── data.js      # GTA + London spots, regions and sample menus
 │   └── nutrition.js # shared scoring breakdown and nutrition helpers
 ├── assets/

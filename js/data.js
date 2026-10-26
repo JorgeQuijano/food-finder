@@ -1942,7 +1942,7 @@ const menus = {
   ],
   jookools: [
     menuItem("joes-salad", "Joe's House Salad", "🥗", "Mixed greens, tomato, cucumber, egg and a light house dressing.", "1 bowl", 380, 12, 32, 22, 7, 7, 430, 4, ["vegetarian", "gluten-free"]),
-    menuItem("buffalo-wrap", "Buffalo Chicken Wrap", "🌯", "Crispy chicken, buffalo sauce, lettuce and ranch in a wrap.", "1 wrap", 560, 26, 48, 26, 5, 5, 880, 6, ["high-protein"]),
+    menuItem("buffalo-wrap", "Buffalo Chicken Wrap", "🌯", "Crispy chicken, buffalo sauce, lettuce and ranch in a wrap.", "1 wrap", 560, 26, 48, 26, 5, 5, 880, 6, ["high-protein", "fried"]),
   ],
   winks: [
     menuItem("winks-bowl", "Winks Grain Bowl", "🥣", "Brown rice, roasted vegetables, chickpeas, greens and tahini.", "1 bowl", 540, 20, 58, 24, 9, 8, 620, 4, ["vegetarian", "high-fiber"]),
@@ -1982,7 +1982,7 @@ const menus = {
   ],
   burgerpriest: [
     menuItem("priest-cheeseburger", "Cheeseburger", "🍔", "Beef patty, cheese, pickles and house sauce on a sesame bun.", "1 burger", 720, 34, 48, 42, 3, 8, 980, 16, ["high-protein"]),
-    menuItem("priest-chicken", "Chicken Sandwich", "🥪", "Crispy chicken, slaw, pickles and spicy mayo on a bun.", "1 sandwich", 620, 34, 50, 28, 3, 6, 900, 6, ["high-protein"]),
+    menuItem("priest-chicken", "Chicken Sandwich", "🥪", "Crispy chicken, slaw, pickles and spicy mayo on a bun.", "1 sandwich", 620, 34, 50, 28, 3, 6, 900, 6, ["high-protein", "fried"]),
   ],
   milos: [
     menuItem("milos-burger", "Milo's Burger", "🍔", "Beef patty, cheddar, bacon, lettuce and house sauce with fries.", "1 burger + fries", 780, 36, 52, 46, 3, 9, 1080, 18, ["high-protein"]),

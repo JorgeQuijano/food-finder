@@ -3803,6 +3803,155 @@ dialog.about-modal {
   line-height: 1.5;
 }
 
+/* Smart swaps */
+
+.swap-panel {
+  margin-top: 1rem;
+  border-color: color-mix(in srgb, var(--brand) 22%, var(--line));
+  background:
+    radial-gradient(
+      70% 100% at 100% 0%,
+      color-mix(in srgb, var(--brand) 9%, transparent),
+      transparent 70%
+    ),
+    color-mix(in srgb, var(--brand) 5%, var(--surface));
+}
+
+.swap-panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.swap-panel-head h3 {
+  margin-top: 0.2rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.swap-count {
+  flex: none;
+  padding: 0.28rem 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--brand) 25%, transparent);
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-size: 0.62rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.swap-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 0.55rem;
+  margin-top: 0.85rem;
+}
+
+.swap-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.swap-icon {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  place-items: center;
+  border-radius: 9px;
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+.swap-icon .icon {
+  width: 15px;
+  height: 15px;
+}
+
+.swap-body {
+  min-width: 0;
+}
+
+.swap-body h4 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.swap-body p {
+  margin-top: 0.18rem;
+  color: var(--muted);
+  font-size: 0.67rem;
+  line-height: 1.45;
+}
+
+.swap-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 0.45rem;
+}
+
+.swap-score {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  padding: 0.24rem 0.42rem;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--brand-contrast);
+  font-size: 0.6rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.swap-score strong {
+  font-size: 0.67rem;
+  font-weight: 750;
+}
+
+.swap-delta {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--ink-soft);
+  font-size: 0.58rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.swap-note {
+  margin-top: 0.65rem;
+  color: var(--muted);
+  font-size: 0.61rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 560px) {
+  .swap-panel-head h3 {
+    font-size: 1.3rem;
+  }
+
+  .swap-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Restaurant menu inside modal */
 
 .detail-menu {

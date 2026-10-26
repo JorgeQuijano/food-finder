@@ -23,6 +23,7 @@ import {
   buildMealTips,
   clamp,
 } from "./nutrition.js";
+import { buildSmartSwaps } from "./swaps.js";
 
 /* --------------------------------------------------------------------------
    Small helpers
@@ -1221,6 +1222,68 @@ function showDetailHtml(html) {
   }
 }
 
+const SWAP_DELTA_LABELS = {
+  calories: ["kcal", 0],
+  protein: ["g protein", 1],
+  carbs: ["g carbs", 1],
+  fat: ["g fat", 1],
+  fiber: ["g fibre", 1],
+  sugar: ["g sugar", 1],
+  sodium: ["mg sodium", 0],
+  satFat: ["g sat fat", 1],
+};
+
+function swapDeltaChips(changes) {
+  return ["sodium", "sugar", "satFat", "calories", "fat", "fiber", "carbs", "protein"]
+    .filter((key) => changes[key])
+    .slice(0, 4)
+    .map((key) => {
+      const [unit, digits] = SWAP_DELTA_LABELS[key];
+      const value = changes[key];
+      const sign = value > 0 ? "+" : "−";
+      return `<span class="swap-delta">${sign}${formatNumber(Math.abs(value), digits)} ${unit}</span>`;
+    })
+    .join("");
+}
+
+function smartSwapsPanelHtml(swaps) {
+  return `
+    <section class="panel swap-panel" aria-labelledby="swap-heading">
+      <div class="swap-panel-head">
+        <div>
+          <p class="overline">If you're ordering</p>
+          <h3 id="swap-heading">Small changes worth asking for.</h3>
+        </div>
+        <span class="swap-count">${swaps.length} ${plural(swaps.length, "change")}</span>
+      </div>
+      <div class="swap-list">
+        ${swaps
+          .map(
+            (swap) => `
+              <article class="swap-item">
+                <span class="swap-icon" aria-hidden="true">${icon("sparkles")}</span>
+                <div class="swap-body">
+                  <h4>${escapeHTML(swap.label)}</h4>
+                  <p>${escapeHTML(swap.detail)}</p>
+                  <div class="swap-metrics">
+                    <span class="swap-score">
+                      ${swap.scoreBefore} → ${swap.scoreAfter}
+                      <strong>+${swap.scoreDelta}</strong>
+                    </span>
+                    ${swapDeltaChips(swap.changes)}
+                  </div>
+                </div>
+              </article>`,
+          )
+          .join("")}
+      </div>
+      <p class="swap-note">
+        Only shown when the estimated change materially improves the score or cuts sodium, sugar
+        or saturated fat. Estimates only — ask the restaurant what they can do.
+      </p>
+    </section>`;
+}
+
 function dishDetailHtml(dish) {
   const insights = getDishInsights(dish);
   const locations = [...dish.locations].sort((a, b) => {
@@ -1242,6 +1305,7 @@ function dishDetailHtml(dish) {
   const appleMapUrl = primary ? appleMapsUrl(primary) : "#";
   const primaryDistance = primary && userLocation ? nearestDistance([primary]) : null;
   const percentages = macroPercentages(dish);
+  const smartSwaps = buildSmartSwaps(dish);
 
   const nutrientTiles = [
     {
@@ -1368,6 +1432,8 @@ function dishDetailHtml(dish) {
           ${icon("arrow-up-right")}
         </a>
       </div>
+
+      ${smartSwaps.length ? smartSwapsPanelHtml(smartSwaps) : ""}
 
       <div class="detail-layout">
         <section class="panel macro-panel" aria-labelledby="nutrition-heading">
