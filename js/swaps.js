@@ -96,12 +96,18 @@ export function buildSmartSwaps(dish) {
   const suggestions = [];
 
   // Sauce / dressing: only when there is enough sodium or fat for the reduction
-  // to matter, and the dish actually describes a sauce or dressing.
+  // to matter, and the dish actually describes a sauce or dressing. Skip dishes
+  // where the sauce is the identity of the order (a buffalo wrap without
+  // buffalo sauce is not the same dish), so the advice stays worth asking for.
   const hasSauceLike =
     /dressing|vinaigrette|aioli|mayonnaise|mayo|crema|drizzle|chimichurri|tahini|pesto|ranch|tzatziki|garlic sauce|house sauce|yogurt sauce|peanut sauce|tartar|remoulade|hollandaise/.test(
       text,
     );
-  if (hasSauceLike && (dish.sodium >= 550 || dish.fat >= 18)) {
+  const sauceIsIdentity =
+    /buffalo|bbq|barbecue|teriyaki|honey garlic|satay|butter chicken|tikka masala|curry|pesto/.test(
+      name,
+    );
+  if (hasSauceLike && !sauceIsIdentity && (dish.sodium >= 550 || dish.fat >= 18)) {
     const sauceLabel = /dressing|vinaigrette/.test(text)
       ? "Ask for the dressing on the side"
       : "Ask for the sauce on the side";

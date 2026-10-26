@@ -1254,7 +1254,7 @@ function smartSwapsPanelHtml(swaps) {
           <p class="overline">If you're ordering</p>
           <h3 id="swap-heading">Small changes worth asking for.</h3>
         </div>
-        <span class="swap-count">${swaps.length} ${plural(swaps.length, "change")}</span>
+        <span class="swap-count">${swaps.length} ${plural(swaps.length, "option")}</span>
       </div>
       <div class="swap-list">
         ${swaps
@@ -1279,7 +1279,8 @@ function smartSwapsPanelHtml(swaps) {
       </div>
       <p class="swap-note">
         Only shown when the estimated change materially improves the score or cuts sodium, sugar
-        or saturated fat. Estimates only — ask the restaurant what they can do.
+        or saturated fat. Each option is estimated on its own — doing more than one can shift the
+        total differently. Estimates only; ask the restaurant what they can do.
       </p>
     </section>`;
 }
