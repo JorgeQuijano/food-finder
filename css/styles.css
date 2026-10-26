@@ -2158,6 +2158,10 @@ input[type="range"]::-moz-range-thumb {
   background: color-mix(in srgb, var(--fat) 20%, var(--surface-2));
 }
 
+.tile-indian {
+  background: color-mix(in srgb, var(--accent) 23%, var(--surface-2));
+}
+
 .place-title-wrap,
 .dish-title-wrap {
   min-width: 0;
