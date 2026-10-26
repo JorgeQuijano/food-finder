@@ -8,7 +8,8 @@
 
 ## What it does
 
-- **Switch cities in one tap** between the GTA (35 spots) and London (8 spots) using the header pills. The selection is reflected in the hero, stats, search placeholder, filters and shareable URL.
+- **Switch cities in one tap** between the GTA (35 spots) and London (18 spots) using the header pills. The selection is reflected in the hero, stats, search placeholder, filters and shareable URL.
+- **Includes everyday and semi-healthy picks** — the London guide now covers pizza, brunch, burgers, Thai, sushi, burritos and comfort food alongside the plant-based spots. Their scores land in the Balanced, Strong and Treat bands, so the full range is visible.
 - **Search both city guides** by dish, restaurant, cuisine or neighbourhood. Filters live in the URL, so a search can be shared.
 - **Filter with intent** by GTA city, cuisine, plant-based / vegetarian / halal / gluten-free / dairy-free options, max calories, minimum protein and an 80+ health score.
 - **Browse places or dishes** — see the best matching dish at each spot, or line individual dishes up by health score, protein, calories, rating or distance.
@@ -53,7 +54,7 @@ The full equation, per-nutrient thresholds, worked examples and a live calculato
 
 ## Data & caveats
 
-This is an independent demo project covering 43 spots and 75 dishes across the GTA and London. Restaurant names are used for place-finding context; it is not affiliated with or endorsed by any restaurant.
+This is an independent demo project covering 53 spots and 105 dishes across the GTA and London. Restaurant names are used for place-finding context; it is not affiliated with or endorsed by any restaurant.
 
 Menu items, ratings, locations and nutrition figures are illustrative estimates for typical servings, not official restaurant data. Menus and recipes change, and the map links point to neighbourhood-level searches rather than exact doors. Confirm ingredients, allergens, hours and current menus with the restaurant. Nothing here is medical advice.
 

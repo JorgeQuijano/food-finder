@@ -697,11 +697,13 @@ h2 em {
 }
 
 .score-pill.balanced {
-  --score-color: color-mix(in srgb, var(--accent) 76%, var(--ink));
+  --score-color: var(--accent);
+  color: var(--ink-soft);
 }
 
 .score-pill.treat {
-  --score-color: color-mix(in srgb, var(--fat) 82%, var(--ink));
+  --score-color: var(--fat);
+  color: var(--ink-soft);
 }
 
 .macro-bar.is-large {
@@ -2138,6 +2140,22 @@ input[type="range"]::-moz-range-thumb {
 
 .tile-mexican {
   background: color-mix(in srgb, var(--sugar) 16%, var(--surface-2));
+}
+
+.tile-pizza-italian {
+  background: color-mix(in srgb, var(--fat) 16%, var(--surface-2));
+}
+
+.tile-cafe-brunch {
+  background: color-mix(in srgb, var(--accent) 20%, var(--surface-2));
+}
+
+.tile-comfort-food {
+  background: color-mix(in srgb, var(--carbs) 18%, var(--surface-2));
+}
+
+.tile-burgers {
+  background: color-mix(in srgb, var(--fat) 20%, var(--surface-2));
 }
 
 .place-title-wrap,
