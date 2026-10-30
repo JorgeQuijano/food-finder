@@ -128,6 +128,7 @@ let lastResultCount = null;
 let urlTimer = null;
 let toastTimer = null;
 let toastActionHandler = null;
+let detailHashSource = null;
 let filterReturnFocus = null;
 const flashTimers = new WeakMap();
 
@@ -158,6 +159,7 @@ function init() {
   setupHeaderScroll();
   syncUrl();
   document.body.classList.add("is-ready");
+  openHashDetail();
 }
 
 function cacheElements() {
@@ -320,6 +322,33 @@ function syncUrl() {
     window.history.replaceState(null, "", nextUrl);
   } catch (error) {
     // File URLs or restricted contexts can refuse history updates.
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Deep-linkable detail dialogs
+   -------------------------------------------------------------------------- */
+
+function readHashOpen() {
+  const hash = window.location.hash;
+  if (!hash) return null;
+  const match = hash.match(/^#(dish|place):(.+)$/);
+  if (!match) return null;
+  return { type: match[1], id: decodeURIComponent(match[2]) };
+}
+
+function openHashDetail() {
+  const pending = readHashOpen();
+  if (!pending) return;
+  detailHashSource = pending;
+  if (pending.type === "dish") openDishDetail(pending.id);
+  else if (pending.type === "place") openPlaceDetail(pending.id);
+}
+
+function setDetailHash(type, id) {
+  const next = `#${type}:${encodeURIComponent(id)}`;
+  if (window.location.hash !== next) {
+    history.pushState(null, "", next);
   }
 }
 
@@ -1192,12 +1221,16 @@ function openDishDetail(dishId) {
   const dish = dishById.get(dishId);
   if (!dish) return;
   showDetailHtml(dishDetailHtml(dish));
+  setDetailHash("dish", dishId);
+  detailHashSource = { type: "dish", id: dishId };
 }
 
 function openPlaceDetail(placeId) {
   const place = restaurantById.get(placeId);
   if (!place) return;
   showDetailHtml(placeDetailHtml(place));
+  setDetailHash("place", placeId);
+  detailHashSource = { type: "place", id: placeId };
 }
 
 function showDetailHtml(html) {
@@ -1432,6 +1465,9 @@ function dishDetailHtml(dish) {
           ${icon("pin")} Find it
           ${icon("arrow-up-right")}
         </a>
+        <button class="btn btn-ghost" type="button" data-copy-link aria-label="Copy link to this dish">
+          Copy link
+        </button>
       </div>
 
       ${smartSwaps.length ? smartSwapsPanelHtml(smartSwaps) : ""}
@@ -1586,6 +1622,9 @@ function placeDetailHtml(place) {
         <a class="btn btn-secondary" href="${mapUrl}" target="_blank" rel="noreferrer">
           ${icon("pin")} Directions ${icon("arrow-up-right")}
         </a>
+        <button class="btn btn-ghost" type="button" data-copy-link aria-label="Copy link to this spot">
+          Copy link
+        </button>
       </div>
 
       <div class="detail-layout">
@@ -2476,12 +2515,46 @@ function bindEvents() {
       closeFilters({ restoreFocus: false });
     }
   });
+
+  window.addEventListener("popstate", () => {
+    const current = readHashOpen();
+    if (!current) {
+      if (els.detailDialog.open && detailHashSource) {
+        els.detailDialog.close();
+      }
+      detailHashSource = null;
+      return;
+    }
+    if (
+      detailHashSource &&
+      detailHashSource.type === current.type &&
+      detailHashSource.id === current.id
+    ) {
+      return;
+    }
+    detailHashSource = current;
+    if (current.type === "dish") openDishDetail(current.id);
+    else if (current.type === "place") openPlaceDetail(current.id);
+  });
 }
 
 function handleGlobalClick(event) {
   const closeButton = event.target.closest("[data-close-dialog]");
   if (closeButton) {
     closeButton.closest("dialog")?.close();
+    return;
+  }
+
+  const copyLink = event.target.closest("[data-copy-link]");
+  if (copyLink) {
+    event.preventDefault();
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        showToast("Link copied");
+      });
+    } else {
+      showToast("Copy the URL from the address bar");
+    }
     return;
   }
 
