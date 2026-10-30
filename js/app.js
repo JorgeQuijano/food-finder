@@ -129,6 +129,9 @@ let urlTimer = null;
 let toastTimer = null;
 let toastActionHandler = null;
 let detailHashSource = null;
+let compare = [];
+const COMPARE_KEY = "forkful.compare.v1";
+const COMPARE_MAX = 3;
 let filterReturnFocus = null;
 const flashTimers = new WeakMap();
 
@@ -146,6 +149,7 @@ function init() {
   readUrlState();
   meal = loadMeal();
   mealTarget = loadMealTarget();
+  compare = loadCompare();
   setupTheme();
   populateFilters();
   syncAllControls();
@@ -154,6 +158,7 @@ function init() {
   renderStats();
   renderResults();
   updateMealUI();
+  updateCompareUI();
   renderMeal();
   updateFooter();
   setupHeaderScroll();
@@ -218,6 +223,7 @@ function cacheElements() {
   els.detailContent = $("#detail-content");
   els.mealDialog = $("#meal-dialog");
   els.mealContent = $("#meal-content");
+  els.compareDialog = $("#compare-dialog");
   els.aboutDialog = $("#about-dialog");
   els.toast = $("#toast");
   els.toastMessage = $("#toast-message");
@@ -1140,6 +1146,9 @@ function dishCardHtml({ dish, locations, primary, distance }, index) {
         <button class="card-link" type="button" data-open-dish="${escapeHTML(dish.id)}">
           Full breakdown ${icon("arrow-right")}
         </button>
+        <button class="dish-compare-btn" type="button" data-compare-toggle="${escapeHTML(dish.id)}" aria-pressed="${String(compare.includes(dish.id))}" aria-label="${compare.includes(dish.id) ? `Remove ${escapeHTML(dish.name)} from comparison` : `Add ${escapeHTML(dish.name)} to comparison`}">
+          ${compare.includes(dish.id) ? icon("check") : icon("scale")}
+        </button>
         <button class="add-button" type="button" data-add-dish="${escapeHTML(dish.id)}" aria-label="Add ${escapeHTML(dish.name)} to your meal">
           ${icon("plus")}Add
         </button>
@@ -1755,6 +1764,143 @@ function saveMealTarget() {
     // Reference target still applies for this session.
   }
 }
+
+/* --------------------------------------------------------------------------
+   Compare (side-by-side dish comparison)
+   -------------------------------------------------------------------------- */
+
+function loadCompare() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(COMPARE_KEY) || "[]");
+    if (!Array.isArray(raw)) return [];
+    return raw.filter((id) => dishById.has(id)).slice(0, COMPARE_MAX);
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveCompare() {
+  try {
+    localStorage.setItem(COMPARE_KEY, JSON.stringify(compare));
+  } catch (error) {
+    // Compare still works for this session.
+  }
+}
+
+function toggleCompare(dishId) {
+  if (!dishById.has(dishId)) return;
+
+  if (compare.includes(dishId)) {
+    compare = compare.filter((id) => id !== dishId);
+    saveCompare();
+    updateCompareUI();
+    announce("Removed from comparison.");
+    return;
+  }
+
+  if (compare.length >= COMPARE_MAX) {
+    showToast(`Compare up to ${COMPARE_MAX} dishes at a time.`);
+    return;
+  }
+
+  compare = [...compare, dishId];
+  saveCompare();
+  updateCompareUI();
+  announce("Added to comparison.");
+}
+
+function updateCompareUI() {
+  const btn = $("#open-compare");
+  const countEl = $(".compare-count", btn);
+  if (!btn) return;
+
+  if (compare.length > 0) {
+    btn.hidden = false;
+    if (countEl) countEl.textContent = String(compare.length);
+    btn.setAttribute(
+      "aria-label",
+      `Compare ${compare.length} ${plural(compare.length, "dish", "dishes")}`,
+    );
+    btn.classList.toggle("is-active", compare.length > 0);
+  } else {
+    btn.hidden = true;
+  }
+}
+
+function openCompare() {
+  if (els.compareDialog) openDialog(els.compareDialog);
+  renderComparison();
+}
+
+function clearCompare() {
+  compare = [];
+  saveCompare();
+  updateCompareUI();
+  renderComparison();
+  announce("Comparison cleared.");
+}
+
+function addAllComparedToMeal() {
+  for (const dishId of compare) {
+    addDishToMeal(dishId);
+  }
+  if (els.compareDialog) els.compareDialog.close();
+}
+
+function renderComparison() {
+  const entries = compare.map((id) => dishById.get(id)).filter(Boolean);
+  const grid = $("#compare-grid");
+  if (!grid) return;
+
+  if (!entries.length) {
+    grid.innerHTML = `
+      <div class="compare-empty">
+        <span class="compare-empty-emoji" aria-hidden="true">⚖️</span>
+        <h3>Nothing to compare yet.</h3>
+        <p>Tap the compare button on up to three dishes to see them side by side.</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = entries.map((dish) => {
+    const percentages = macroPercentages(dish);
+    const primary = pickBestLocation(dish.locations);
+    const locationText = primary
+      ? `${escapeHTML(primary.name)} · ${escapeHTML(primary.area)}, ${escapeHTML(primary.city)}`
+      : "Ontario";
+
+    return `
+      <article class="compare-item">
+        <div class="compare-item-head">
+          <button type="button" data-compare-remove="${escapeHTML(dish.id)}" aria-label="Remove ${escapeHTML(dish.name)} from comparison">${icon("x")}</button>
+          <span class="compare-emoji" aria-hidden="true">${escapeHTML(dish.emoji)}</span>
+          <div>
+            <h4>${escapeHTML(dish.name)}</h4>
+            <span class="score-pill ${dish.band.key}">${dish.score}<small>/100</small></span>
+          </div>
+        </div>
+        <p class="compare-place">${escapeHTML(locationText)}</p>
+        <p class="compare-desc">${escapeHTML(dish.description)}</p>
+        <div class="compare-stats">
+          <div><strong>${formatCalories(dish.calories)}</strong><span>kcal</span></div>
+          <div><strong>${formatNumber(dish.protein, 1)} g</strong><span>protein</span></div>
+          <div><strong>${formatNumber(dish.carbs, 1)} g</strong><span>carbs</span></div>
+          <div><strong>${formatNumber(dish.fat, 1)} g</strong><span>fat</span></div>
+          <div><strong>${formatNumber(dish.fiber, 1)} g</strong><span>fibre</span></div>
+          <div><strong>${formatNumber(dish.sodium)} mg</strong><span>sodium</span></div>
+        </div>
+        ${macroBarHtml(dish)}
+        <div class="compare-actions-item">
+          <button class="btn btn-primary" type="button" data-add-dish="${escapeHTML(dish.id)}">${icon("plus")} Add to meal</button>
+          <button class="btn btn-ghost compare-remove-item" type="button" data-compare-remove="${escapeHTML(dish.id)}">Remove</button>
+        </div>
+      </article>`;
+  }).join("");
+}
+
+/* --------------------------------------------------------------------------
+   Meal builder
+   -------------------------------------------------------------------------- */
 
 function getMealEntries() {
   return meal
@@ -2468,6 +2614,8 @@ function bindEvents() {
     if (typeof action === "function") action();
   });
 
+  els.openCompare?.addEventListener("click", () => openCompare());
+
   $$("dialog.modal").forEach((dialog) => {
     dialog.addEventListener("click", (event) => {
       if (event.target === dialog) dialog.close();
@@ -2558,6 +2706,24 @@ function handleGlobalClick(event) {
     return;
   }
 
+  const compareToggle = event.target.closest("[data-compare-toggle]");
+  if (compareToggle) {
+    event.preventDefault();
+    toggleCompare(compareToggle.dataset.compareToggle);
+    return;
+  }
+
+  const compareRemove = event.target.closest("[data-compare-remove]");
+  if (compareRemove) {
+    event.preventDefault();
+    compare = compare.filter((id) => id !== compareRemove.dataset.compareRemove);
+    saveCompare();
+    updateCompareUI();
+    renderComparison();
+    announce("Removed from comparison.");
+    return;
+  }
+
   const addButton = event.target.closest("[data-add-dish]");
   if (addButton) {
     event.preventDefault();
@@ -2598,6 +2764,20 @@ function handleGlobalClick(event) {
   if (mealButton) {
     event.preventDefault();
     openMeal();
+  }
+
+  const compareClear = event.target.closest("[data-compare-clear]");
+  if (compareClear) {
+    event.preventDefault();
+    clearCompare();
+    return;
+  }
+
+  const compareAddAll = event.target.closest("[data-compare-add-all]");
+  if (compareAddAll) {
+    event.preventDefault();
+    addAllComparedToMeal();
+    return;
   }
 }
 

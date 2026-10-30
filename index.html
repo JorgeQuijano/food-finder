@@ -419,6 +419,10 @@
                     <svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>
                     <span>Near me</span>
                   </button>
+                  <button class="control-button compare-button" id="open-compare" type="button" hidden>
+                    <svg class="icon" aria-hidden="true"><use href="#i-scale"></use></svg>
+                    <span>Compare <span class="compare-count">0</span></span>
+                  </button>
                   <div class="select-wrap sort-wrap">
                     <label class="sr-only" for="sort-select">Sort by</label>
                     <select id="sort-select">
@@ -639,6 +643,31 @@
           </button>
         </div>
         <div class="meal-content" id="meal-content"></div>
+      </div>
+    </dialog>
+
+    <dialog class="modal compare-modal" id="compare-dialog" aria-labelledby="compare-title">
+      <div class="modal-shell">
+        <div class="modal-topbar">
+          <div>
+            <p class="overline">Compare dishes</p>
+            <h2 id="compare-title">Side by side</h2>
+          </div>
+          <button class="modal-close" type="button" data-close-dialog aria-label="Close comparison">
+            <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+          </button>
+        </div>
+        <div class="modal-scroll">
+          <div class="compare-grid" id="compare-grid"></div>
+          <div class="compare-actions">
+            <button class="btn btn-primary" type="button" data-compare-add-all>
+              Add all to meal
+            </button>
+            <button class="text-button" type="button" data-compare-clear>
+              Clear comparison
+            </button>
+          </div>
+        </div>
       </div>
     </dialog>
 
