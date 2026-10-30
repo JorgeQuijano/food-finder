@@ -24,6 +24,7 @@ import {
   clamp,
 } from "./nutrition.js";
 import { buildSmartSwaps } from "./swaps.js";
+import { dishMediaHtml, hasDishPhoto } from "./dish-media.js";
 
 /* --------------------------------------------------------------------------
    Small helpers
@@ -189,6 +190,7 @@ function cacheElements() {
   els.highScore = $("#high-score");
   els.sortSelect = $("#sort-select");
   els.nearMe = $("#near-me");
+  els.openCompare = $("#open-compare");
   els.resultsCount = $("#results-count");
   els.resultsGrid = $("#results-grid");
   els.emptyState = $("#empty-state");
@@ -722,8 +724,8 @@ function renderHero() {
         <span class="pick-kicker">${icon("sparkles")} Today's smart pick</span>
         <span class="score-pill ${pick.band.key}">${pick.score}<small>/100</small></span>
       </div>
-      <div class="pick-media">
-        <span class="pick-emoji" aria-hidden="true">${escapeHTML(pick.emoji)}</span>
+      <div class="pick-media${hasDishPhoto(pick) ? " has-photo" : ""}">
+        ${dishMediaHtml(pick, { className: "pick-photo", eager: true })}
         <span class="pick-sticker">per serving</span>
         <div class="pick-media-tags">
           <span>${escapeHTML(location.area)}</span>
@@ -1085,16 +1087,21 @@ function placeCardHtml({ place, matching, best, distance }, index) {
           <span class="overline">Best match</span>
           <span class="score-pill ${best.band.key}" aria-label="Forkful health score ${best.score} out of 100">${best.score}<small>/100</small></span>
         </div>
-        <div class="best-dish-main">
-          <span class="best-dish-name">${escapeHTML(best.name)}</span>
-          <span class="best-dish-cals">${formatCalories(best.calories)} kcal</span>
+        <div class="best-dish-body">
+          ${dishMediaHtml(best, { className: "best-dish-thumb" })}
+          <div class="best-dish-copy">
+            <div class="best-dish-main">
+              <span class="best-dish-name">${escapeHTML(best.name)}</span>
+              <span class="best-dish-cals">${formatCalories(best.calories)} kcal</span>
+            </div>
+            <div class="mini-stats">
+              <span><strong>${formatNumber(best.protein, 1)}g</strong> protein</span>
+              <span><strong>${formatNumber(best.fiber, 1)}g</strong> fibre</span>
+              <span><strong>${formatNumber(best.sodium)}mg</strong> sodium</span>
+            </div>
+            ${macroBarHtml(best)}
+          </div>
         </div>
-        <div class="mini-stats">
-          <span><strong>${formatNumber(best.protein, 1)}g</strong> protein</span>
-          <span><strong>${formatNumber(best.fiber, 1)}g</strong> fibre</span>
-          <span><strong>${formatNumber(best.sodium)}mg</strong> sodium</span>
-        </div>
-        ${macroBarHtml(best)}
       </div>
 
       <div class="place-card-footer">
@@ -1120,7 +1127,7 @@ function dishCardHtml({ dish, locations, primary, distance }, index) {
   return `
     <article class="dish-card" style="--i:${index}">
       <div class="dish-card-top">
-        <div class="emoji-tile tile-${escapeHTML(cuisineSlug(primaryPlace?.cuisine || ""))}" aria-hidden="true">${escapeHTML(dish.emoji)}</div>
+        ${dishMediaHtml(dish, { className: `emoji-tile tile-${escapeHTML(cuisineSlug(primaryPlace?.cuisine || ""))}` })}
         <div class="dish-title-wrap">
           <p class="dish-place">${locationLine}</p>
           <h3 class="dish-name">
@@ -1444,7 +1451,7 @@ function dishDetailHtml(dish) {
     </div>
     <div class="modal-scroll">
       <div class="detail-hero">
-        <div class="detail-emoji" aria-hidden="true">${escapeHTML(dish.emoji)}</div>
+        ${dishMediaHtml(dish, { className: "detail-emoji", eager: true })}
         <div class="detail-heading">
           <p class="detail-breadcrumb">
             <span>${escapeHTML(primaryPlace?.cuisine || "GTA + London find")}</span>
@@ -1560,7 +1567,7 @@ function placeDetailHtml(place) {
     .map(
       (dish) => `
         <article class="menu-row">
-          <div class="menu-row-emoji" aria-hidden="true">${escapeHTML(dish.emoji)}</div>
+          ${dishMediaHtml(dish, { className: "menu-row-emoji" })}
           <div class="menu-row-main">
             <div class="menu-row-title">
               <h4><button type="button" data-open-dish="${escapeHTML(dish.id)}">${escapeHTML(dish.name)}</button></h4>
@@ -1872,12 +1879,12 @@ function renderComparison() {
     return `
       <article class="compare-item">
         <div class="compare-item-head">
-          <button type="button" data-compare-remove="${escapeHTML(dish.id)}" aria-label="Remove ${escapeHTML(dish.name)} from comparison">${icon("x")}</button>
-          <span class="compare-emoji" aria-hidden="true">${escapeHTML(dish.emoji)}</span>
-          <div>
-            <h4>${escapeHTML(dish.name)}</h4>
+          ${dishMediaHtml(dish, { className: "compare-emoji" })}
+          <div class="compare-item-title">
+            <h3>${escapeHTML(dish.name)}</h3>
             <span class="score-pill ${dish.band.key}">${dish.score}<small>/100</small></span>
           </div>
+          <button type="button" data-compare-remove="${escapeHTML(dish.id)}" aria-label="Remove ${escapeHTML(dish.name)} from comparison">${icon("x")}</button>
         </div>
         <p class="compare-place">${escapeHTML(locationText)}</p>
         <p class="compare-desc">${escapeHTML(dish.description)}</p>
@@ -1892,7 +1899,7 @@ function renderComparison() {
         ${macroBarHtml(dish)}
         <div class="compare-actions-item">
           <button class="btn btn-primary" type="button" data-add-dish="${escapeHTML(dish.id)}">${icon("plus")} Add to meal</button>
-          <button class="btn btn-ghost compare-remove-item" type="button" data-compare-remove="${escapeHTML(dish.id)}">Remove</button>
+          <button class="btn btn-ghost compare-remove-item" type="button" data-compare-remove="${escapeHTML(dish.id)}" aria-label="Remove ${escapeHTML(dish.name)} from comparison">${icon("x")}</button>
         </div>
       </article>`;
   }).join("");
@@ -2020,6 +2027,20 @@ function flashAdded(button) {
   }, 1400);
 }
 
+function mealCollageHtml(entries) {
+  if (!entries.length) return "";
+  const visible = entries.slice(0, 3);
+  const extra = entries.length - visible.length;
+
+  return `
+    <div class="meal-collage" aria-hidden="true">
+      ${visible
+        .map((entry) => dishMediaHtml(entry.dish, { className: "meal-collage-item" }))
+        .join("")}
+      ${extra > 0 ? `<span class="meal-collage-more">+${extra}</span>` : ""}
+    </div>`;
+}
+
 function renderMeal() {
   const entries = getMealEntries();
   const totals = getMealTotals();
@@ -2056,7 +2077,7 @@ function renderMeal() {
               const location = pickBestLocation(regionLocations.length ? regionLocations : dish.locations);
               return `
                 <button class="suggestion" type="button" data-add-dish="${escapeHTML(dish.id)}">
-                  <span class="suggestion-emoji" aria-hidden="true">${escapeHTML(dish.emoji)}</span>
+                  ${dishMediaHtml(dish, { className: "suggestion-emoji" })}
                   <span class="suggestion-copy">
                     <strong>${escapeHTML(dish.name)}</strong>
                     <small>${escapeHTML(location?.name || "Ontario")} · ${formatCalories(dish.calories)} kcal · ${dish.score}/100</small>
@@ -2106,7 +2127,7 @@ function renderMeal() {
 
       return `
         <li class="meal-item">
-          <span class="meal-item-emoji" aria-hidden="true">${escapeHTML(dish.emoji)}</span>
+          ${dishMediaHtml(dish, { className: "meal-item-emoji" })}
           <div class="meal-item-copy">
             <strong>${escapeHTML(dish.name)}</strong>
             <span>${escapeHTML(locationText)}</span>
@@ -2149,6 +2170,7 @@ function renderMeal() {
       </section>
 
       <aside class="meal-summary" aria-label="Meal nutrition totals">
+        ${mealCollageHtml(entries)}
         <span class="overline">Meal total</span>
         <div class="meal-calories">
           <strong>${formatCalories(totals.calories)}</strong>
@@ -2709,7 +2731,16 @@ function handleGlobalClick(event) {
   const compareToggle = event.target.closest("[data-compare-toggle]");
   if (compareToggle) {
     event.preventDefault();
-    toggleCompare(compareToggle.dataset.compareToggle);
+    const dishId = compareToggle.dataset.compareToggle;
+    const dish = dishById.get(dishId);
+    toggleCompare(dishId);
+    const selected = compare.includes(dishId);
+    compareToggle.setAttribute("aria-pressed", String(selected));
+    compareToggle.setAttribute(
+      "aria-label",
+      `${selected ? "Remove" : "Add"} ${dish?.name || "dish"} ${selected ? "from" : "to"} comparison`,
+    );
+    compareToggle.innerHTML = selected ? icon("check") : icon("scale");
     return;
   }
 

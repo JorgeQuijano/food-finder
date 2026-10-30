@@ -13,6 +13,7 @@
 - **Search both city guides** by dish, restaurant, cuisine or neighbourhood. Filters live in the URL, so a search can be shared.
 - **Filter with intent** by GTA city, cuisine, plant-based / vegetarian / halal / gluten-free / dairy-free options, max calories, minimum protein and an 80+ health score.
 - **Browse places or dishes** — see the best matching dish at each spot, or line individual dishes up by health score, protein, calories, rating or distance.
+- **See a photo for every dish** — each dish gets a compact representative thumbnail in cards, menus, comparisons, the meal builder and the scoring page. Images are stored locally and fall back to the original food emoji if one is missing.
 - **Read the full breakdown** on every dish: calories, protein, carbs, fat, saturated fat, fibre, sugar and sodium, with a macro split and % daily values based on a 2,000 kcal reference diet.
 - **Get meaningful order tweaks** when they exist. Dish details can suggest up to two practical changes — sauce on the side, half the cheese, grilled protein instead of fried, a side salad instead of fries, or less added sweetness — with projected calorie and nutrient savings. A change is only surfaced when it improves the estimated score by 3+ points, or meaningfully cuts sodium, sugar or saturated fat while still improving the score.
 - **See the math** on the dedicated [scoring page](method.html): the exact equation, component thresholds, four worked dish examples, and a live calculator for any nutrition label.
@@ -58,11 +59,40 @@ The full equation, per-nutrient thresholds, worked examples and a live calculato
 
 This is an independent demo project covering 89 spots and 177 dishes across the GTA and London. Restaurant names are used for place-finding context; it is not affiliated with or endorsed by any restaurant.
 
-Menu items, ratings, locations and nutrition figures are illustrative estimates for typical servings, not official restaurant data. Menus and recipes change, and the map links point to neighbourhood-level searches rather than exact doors. Confirm ingredients, allergens, hours and current menus with the restaurant. Nothing here is medical advice.
+Menu items, ratings, locations and nutrition figures are illustrative estimates for typical servings, not official restaurant data. Dish photos are representative food images, not official photography of the listed restaurant dishes. Menus and recipes change, and the map links point to neighbourhood-level searches rather than exact doors. Confirm ingredients, allergens, hours and current menus with the restaurant. Nothing here is medical advice.
+
+## Dish photos
+
+The guide ships with one representative photo for every dish id. The default
+library is CC0/public-domain food photography from Wikimedia Commons, stored
+locally as WebP thumbnails. No image is hotlinked at runtime.
+
+To replace a generic photo with your own, put the file at:
+
+```text
+photo-sources/<menu>/<dish-key>.jpg
+# example: photo-sources/fresh/green-goddess.jpg
+```
+
+Then rebuild the library and manifest:
+
+```bash
+python3 scripts/fetch-dish-photos.py
+```
+
+The script needs Python 3 with Pillow and Node 18+ (Node is only used to read
+the dish list). It crops to a 4:3 thumbnail, writes `assets/dishes/…`,
+regenerates `js/dish-photos.js` and updates `assets/dishes/CREDITS.md`.
+`photo-sources/` is local-only and gitignored; only the optimized output is
+committed.
+
+The photo library and credits are illustrative. They are not official
+photography from the restaurants in the guide.
 
 ## Tech
 
 - Vanilla JavaScript ES modules, semantic HTML and custom CSS
+- Local WebP dish thumbnails and a generated photo manifest — no runtime image service or hotlinking
 - Self-hosted variable fonts (no external font or JS CDN at runtime)
 - `localStorage` for theme, meal and meal target
 - `prefers-color-scheme` listener for live system-theme changes
@@ -77,16 +107,21 @@ food-finder/
 │   ├── styles.css
 │   └── method.css
 ├── js/
-│   ├── app.js       # UI, city switch, filtering, dialogs, meal builder, theme
-│   ├── method.js    # formula page, examples, calculator and page theme
-│   ├── swaps.js     # conservative, materiality-gated order suggestions
-│   ├── data.js      # GTA + London spots, regions and sample menus
-│   └── nutrition.js # shared scoring breakdown and nutrition helpers
+│   ├── app.js        # UI, city switch, filtering, dialogs, meal builder, theme
+│   ├── method.js     # formula page, examples, calculator and page theme
+│   ├── swaps.js      # conservative, materiality-gated order suggestions
+│   ├── data.js       # GTA + London spots, regions and sample menus
+│   ├── dish-photos.js # generated dish-id → photo manifest
+│   ├── dish-media.js # shared thumbnail renderer and emoji fallback
+│   └── nutrition.js  # shared scoring breakdown and nutrition helpers
+├── scripts/
+│   └── fetch-dish-photos.py # local photo library builder
 ├── assets/
+│   ├── dishes/       # optimized WebP thumbnails + CREDITS.md
 │   ├── favicon.svg
 │   ├── preview.png
 │   ├── scoring-preview.png
-│   └── fonts/       # DM Sans, Fraunces, Noto Emoji + OFL licences
+│   └── fonts/        # DM Sans, Fraunces, Noto Emoji + OFL licences
 ├── .nojekyll
 └── README.md
 ```

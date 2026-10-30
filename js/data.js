@@ -3635,4 +3635,4 @@ export const stats = {
 };
 
 export const DATA_NOTE =
-  "Menu items and nutrition figures are illustrative estimates for typical servings, not official restaurant data. Menus and recipes change — confirm details with the restaurant.";
+  "Menu items and nutrition figures are illustrative estimates for typical servings, not official restaurant data. Dish photos are representative and may not show the exact dish served. Menus and recipes change — confirm details with the restaurant.";

@@ -1,5 +1,6 @@
 import { dishById } from "./data.js";
 import { healthScoreBreakdown, formatNumber } from "./nutrition.js";
+import { dishMediaHtml } from "./dish-media.js";
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -230,7 +231,7 @@ function renderExamples() {
     return `
       <article class="example-card" style="--i:${index}">
         <header class="example-head">
-          <div class="example-emoji" aria-hidden="true">${escapeHTML(dish.emoji)}</div>
+          ${dishMediaHtml(dish, { className: "example-emoji" })}
           <div class="example-title">
             <p class="example-place">${escapeHTML(location?.name || "Forkful pick")} · ${escapeHTML(location?.city || "Ontario")}</p>
             <h3>${escapeHTML(dish.name)}</h3>
